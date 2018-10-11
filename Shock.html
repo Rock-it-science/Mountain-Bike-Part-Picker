@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<html>
+<body>
+  <h1>Select a Shock</h1>
+  <table width="75%" align="center">
+    <tr>
+      <th>Part</th>
+      <th>Price</th>
+      <th>View Part</th>
+    </tr>
+    <tr>
+      <td>Rockshox Super Deluxe Air</td>
+      <td>$400</td>
+      <td align="center"><button onclick="add()">Select</button></td>
+    </tr>
+  </table>
+  <script>
+    function add(){
+      //if you already have a frame selected, show error
+      if((document.cookie).includes("Shock=Rockshox")){//TODO: change this so its not hard coded
+        window.alert("You have already selected a Shock! Remove the one on your build first.");
+      }
+      else{
+        //set cookie and fo back to main page
+        document.cookie = "Shock=Rockshox Super Deluxe Air $400;";
+        window.location.href="main.html";
+      }
+      //TODO Add filter system
+      //TODO Only show compatible parts
+      //TODO Add more parts
+    }
+  </script>
+</body>
+</html>

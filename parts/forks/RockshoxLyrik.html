@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<html>
+<body>
+<style>
+/* TODO Fix this*/
+
+/* Dropdown Button */
+.dropbtn {
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+  cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #eaeaea}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+</style>
+<body>
+<div align="right">
+  <button id="back" onclick="back()">Back to build</button>
+</div>
+<h1><p id="fork name">forkName</p></h1>
+
+Wheel Size:
+<div class="dropdown">
+<button onclick="wheelDrop()" class="dropbtn"><a id="w_dropdown-text">Select Frame Size  &#9660;</a></button>
+  <div id="w_Dropdown" class="dropdown-content">
+    <a onclick="ts()">27.5</a>
+    <a onclick="tn()">29</a>
+  </div>
+</div>
+
+Travel:
+<div class="dropdown">
+<button onclick="travelDrop()" class="dropbtn"><a id="t_dropdown-text">Select Travel Length  &#9660;</a></button>
+  <div id="t_Dropdown" class="dropdown-content">
+    <a onclick="fifty()">150</a>
+    <a onclick="sixty()">160</a>
+    <a onclick="seventy()">170</a>
+    <a onclick="eighty()">180</a>
+  </div>
+</div>
+
+<!-- TODO make this not hard-coded !-->
+<p id="price">Price: $550</p>
+
+<div>
+  <button id="addButton" onclick="add()" style="display: none;">Add to list</button>
+</div>
+
+</body>
+
+<script>
+//Configurable variables
+var forkName = "Rockshox Lyrik";
+//setting config variables to places on page
+window.onload = function main(){
+  document.getElementById("fork name").innerHTML = forkName;
+}
+//Back button
+function back(){
+  window.location.href="../../main.html";
+}
+//Dropdowns
+function wheelDrop(){
+  document.getElementById("w_Dropdown").classList.toggle("show");
+}
+function travelDrop(){
+  document.getElementById("t_Dropdown").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+  // Close the dropdown if the user clicks outside of it
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+
+  //if all selections are made, show add to list button
+  if((travel != null) && (wheelSize != null)){
+    document.getElementById("addButton").style.display = "block";
+}
+}
+//Dropdown selection functions
+var wheelSize;
+function ts(){
+  document.getElementById("w_dropdown-text").innerHTML = "27.5";
+  wheelSize = 27.5;
+}
+function tn(){
+  document.getElementById("w_dropdown-text").innerHTML = "29";
+  wheelSize = 29;
+}
+
+var travel;
+function fifty(){
+  document.getElementById("t_dropdown-text").innerHTML = "150";
+  travel = 150;
+}
+function sixty(){
+  document.getElementById("t_dropdown-text").innerHTML = "160";
+  travel = 160;
+}
+function seventy(){
+  document.getElementById("t_dropdown-text").innerHTML = "170";
+  travel = 170;
+}
+function eighty(){
+  document.getElementById("t_dropdown-text").innerHTML = "180";
+  travel = 180;
+}
+
+//Add function
+function add(){
+  //if you already have a frame selected, show error
+  if((document.cookie).includes("Fork=Rockshox")){//TODO: change this so its not hard coded
+    window.alert("You have already selected a fork! Remove the one on your build first.");
+  }
+  else{
+    
+    /*
+    //TODO Depricate cookies, use JSON
+    //set cookie and fo back to main page
+    document.cookie = "Fork=Rockshox Lyrik ("+wheelSize+"\", "+travel+"mm) $550;";
+    */
+
+    //Add fork ID to cookie
+    document.cookie = "Fork=2001-"+wheelSize+"-"+travel+"-"+"550";
+
+    //Return to home page
+    window.location.href="../../main.html";
+  }
+  //TODO Add filter system
+  //TODO Only show compatible parts
+  //TODO Add more parts
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<html>
+<body>
+  <h1>Select a Drivetrain</h1>
+  <table width="75%" align="center">
+    <tr>
+      <th>Part</th>
+      <th>Price</th>
+      <th>Add to List</th>
+    </tr>
+    <tr>
+      <td>SRAM Eagle X01</td>
+      <td>$300</td>
+      <td align="center"><button onclick="add()">Select</button></td>
+    </tr>
+  </table>
+  <script>
+    function add(){
+      //if you already have a frame selected, show error
+      if((document.cookie).includes("Frame=SRAM")){//TODO: change this so its not hard coded
+        window.alert("You have already selected a drivetrain! Remove the one on your build first.");
+      }
+      else{
+        //set cookie and fo back to main page
+        document.cookie = "Drivetrain=Sram Eagle X01 $300;";
+        window.location.href="main.html";
+      }
+      //TODO Add filter system
+      //TODO Only show compatible parts
+      //TODO Add more parts
+    }
+  </script>
+</body>
+</html>
