@@ -80,10 +80,12 @@ function main(){
   var drivetrainPrice=0;
   var forkPrice=0;
   var shockPrice=0;
+
   //Getting value of isFrame from cookie
   console.log(document.cookie);
   var cookieString = decodeURIComponent(document.cookie);
   var isFrame_string1 = cookieString.substring(cookieString.indexOf("isFrame=")+8);
+
   //If there is a space in the cookie (indicicative of multiple variables in cookieStirng), then take the first one
   if(isFrame_string1.includes(" ")){
     var isFrame_string = isFrame_string1.substring(0, isFrame_string1.indexOf(" "));
@@ -94,26 +96,23 @@ function main(){
     isFrame_string = isFrame_string.substring(0, isFrame_string.length - 1);
   }
   console.log("isFrame_string = " + isFrame_string);
-  if(isFrame_string == "true"){
 
+  //If a frame is selected, show its info on the table
+  if(isFrame_string == "true"){
     //Getting details from server
     getFrameInfo();
-
-    //setting HTML Elements
-    document.getElementById("frame_name").innerHTML = frame_name;
-    document.getElementById("frame_price").innerHTML = "$"+framePrice;
-    //update Total
-    updateTotal(framePrice, drivetrainPrice, forkPrice, shockPrice);
-    //show frame button
+    //show "remove frame" button
     document.getElementById("removeFrame_button").style.display = 'block';
   }
 }
+
 //Check if frame is in currentBuild
 function isFrame(){
   //Checks if there is a frame in the currentBuild table in the mtppp database by making a XMLHttpRequest
   //When XMLHTTP is ready this should run request(), then call main() when request() has finished
   console.log("isFrame called");
   var isFrameRequest = new XMLHttpRequest();
+
   isFrameRequest.onreadystatechange = function() {
     //console.log("sending request");
     //console.log("isFrameRequest status = " + isFrameRequest.status);
@@ -121,31 +120,19 @@ function isFrame(){
       //console.log("request successful");
       if(isFrameRequest.responseText != ""){//responseText from isFrame.php means there is a frame selected
         console.log(isFrameRequest.responseText); //Should output "frame selected"
-        //isFrameRequest.abort();
         document.cookie = "isFrame=true";
         main();
       }
       else{//No responseText from isFrame.php means there is no frame selected
-        //isFrameRequest.abort();
         console.log("no frame selected");
         document.cookie = "isFrame=false";
         main();
       }
     }
   }
+
   isFrameRequest.open("GET", "isFrame.php", true);
   isFrameRequest.send();
-}
-
-//update total
-function updateTotal(framePrice, drivetrainPrice, forkPrice, shockPrice){
-  var total = parseInt(framePrice);
-  for(var x=1; x<4; x++){
-    if(arguments[x] != 0){total += parseInt(arguments[x])}
-  }
-  //var total = framePrice + drivetrainPrice + forkPrice + shockPrice;
-  //console.log(total, framePrice, drivetrainPrice, forkPrice, shockPrice);
-  document.getElementById("total").innerHTML = "$"+total;
 }
 
 //remove item from list
@@ -163,6 +150,7 @@ function remove(Item){
   removeRequest.send();
 
 }
+
 //show/hide button functions
 function show_buttons(){
   document.getElementById("removeFrame_button").style.display = 'block';
@@ -177,7 +165,7 @@ function hide_buttons(){
   document.getElementById("removeShock_button").style.display = 'none';
 }
 
-//runs following functions asynchronously
+//async function for getting frame info and updating it in the main table
 async function getFrameInfo(){
   console.log("getting frame info");
   getInfoRequest("getName.php?pt=frame").then(function(response){
@@ -188,28 +176,12 @@ async function getFrameInfo(){
     console.log(response);
     framePrice = response;
     document.getElementById("frame_price").innerHTML = "$"+framePrice;
+    //Update total price TODO make this dynamic
+    document.getElementById("total").innerHTML = "$"+framePrice;
   });
+
 }
 
-//Get frame_name
-/*function getFrame_name(){
-  //TODO make this non-specific to frame
-  return new Promise(resolve => {
-    console.log("running getFrame_name");
-    getNameRequest= new XMLHttpRequest();
-    getNameRequest.onreadystatechange = function(){
-      if(getNameRequest.readyState == 4 && getNameRequest.status == 200){
-        console.log("getNameRequest successful");
-        frame_name = getNameRequest.responseText;
-        document.getElementById("frame_name").innerHTML = frame_name;
-        resolve(frame_name);
-      }
-    };
-    getNameRequest.open("GET", "getName.php?pt=frame", true);
-    getNameRequest.send();
-  });
-}
-*/
 //Get info request new attempt
 function getInfoRequest(url){
   console.log("info request created for "+url);
@@ -225,29 +197,6 @@ function getInfoRequest(url){
     xhr.send();
   });
 }
-
-
-//Get framePrice
-/*
-function getFrame_price(){
-  //TODO make this non-specific to frame
-  return new Promise(resolve => {
-    console.log("running getFrame_price")
-    getPriceRequest= new XMLHttpRequest();
-    getPriceRequest.onreadystatechange = function(){
-      if(getPriceRequest.readyState == 4 && getPriceRequest.status == 200){
-        console.log("getPriceRequest successful");
-        var framePrice = getPriceRequest.responseText;
-        console.log(framePrice);
-        document.getElementById("frame_price").innerHTML = framePrice;
-        resolve(frame_name);
-      }
-    };
-    getNameRequest.open("GET", "getPrice.php?pt=frame", true);
-    getNameRequest.send();
-  });
-}
-*/
 
 </script>
 

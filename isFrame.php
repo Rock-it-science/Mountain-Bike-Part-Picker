@@ -15,7 +15,7 @@ if($conn->connect_error){
 $result = $conn->query("SELECT frameId FROM currentBuild;");
 $row = $result->fetch_assoc();
 $frameId = $row["frameId"];
-if($frameId && $frameId != ""){
+if(($frameId) && ($frameId != "")){
   echo "frame selected";
 }
  ?>

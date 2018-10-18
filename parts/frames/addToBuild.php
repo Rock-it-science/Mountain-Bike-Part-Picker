@@ -31,13 +31,19 @@ $options = $size . " " . $material . " " . $wheelsize;
 //Adding part to currentBuild table
 //If there is already a row for this userId, append to it rather than trying to add a new line
 $checkRow = $conn->query("SELECT * FROM currentBuild WHERE userId=0;");
-if($checkRow->fetch_assoc()){
-  $result = $conn->query("UPDATE currentBuild SET frameId=$frameId, frameOptions='$options' WHERE userId=0);");
+
+//Adding to currentbuild table, TODO make this dependant on userId
+$result = $conn->query("UPDATE currentBuild SET frameId=$frameId, frameOptions='$options', framePrice=$price WHERE userId=0;");
+
+//Worry about userId stuff later
+/*if($checkRow->fetch_assoc()){
+  $result = $conn->query("UPDATE currentBuild SET frameId=$frameId, frameOptions='$options' WHERE userId=0;");
 }
 else{
   $result = $conn->query("INSERT INTO currentBuild VALUES ($userId, $frameId, '$options');");
-  echo($result);
 }
+*/
+echo($result);
 
 $conn->close();
 

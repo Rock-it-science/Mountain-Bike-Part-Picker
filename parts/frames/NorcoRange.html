@@ -204,6 +204,7 @@ function add(){
   console.log("isFrame_string = " + isFrame_string);
   if(isFrame_string == "false"){ //if there is no frame in currentBuild, then add this one
     //PHP method
+    console.log("adding frame");
     addRequest = new XMLHttpRequest();
     addRequest.onreadystatechange = function() {
        if (addRequest.status == 200) {
@@ -212,7 +213,7 @@ function add(){
          window.location.href="../../index.html";
        }
      };
-     addRequest.open("GET","addToBuild.php?frameId=1&size=frameSizeSelection&material=materialSelection&wheelsize=wheelSizeSelection&price="+price,true);
+     addRequest.open("GET","addToBuild.php?frameId=1&size="+frameSizeSelection+"&material="+materialSelection+"&wheelsize="+wheelSizeSelection+"&price="+price,true);
      addRequest.send();
   }
   //if there is a frame selected

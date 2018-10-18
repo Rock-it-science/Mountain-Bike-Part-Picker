@@ -16,7 +16,7 @@ if($conn->connect_error){
 }
 
 $price = $conn->query("SELECT $partTypePriceString FROM currentBuild WHERE userId=0;");
-if($row -> $price->fetch_assoc()){
+if($row = $price->fetch_assoc()){
   echo $row["$partTypePriceString"];
 }
  ?>
