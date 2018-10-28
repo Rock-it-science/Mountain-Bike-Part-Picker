@@ -15,7 +15,8 @@ if($conn->connect_error){
 }
 $partTypeIdString = $partType . "Id";
 $partTypeOptionsString = $partType . "Options";
-$result1 = $conn->query("SELECT $partTypeIdString, $partTypeOptionsString FROM currentBuild WHERE userId=0;");
+$tableString = $partType . "Build";
+$result1 = $conn->query("SELECT $partTypeIdString, $partTypeOptionsString FROM $tableString WHERE userId=0;");
 if($row = $result1->fetch_assoc()){
   $id = $row["$partTypeIdString"];
   $options = $row["$partTypeOptionsString"];

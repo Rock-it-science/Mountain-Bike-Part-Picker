@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8"/>
 <html>
-<body>
 <style>
 /* TODO Fix this*/
 
@@ -45,130 +44,195 @@
 .show {display:block;}
 </style>
 <body>
+
 <div align="right">
   <button id="back" onclick="back()">Back to build</button>
 </div>
-<h1><p id="fork name">forkName</p></h1>
 
-Wheel Size:
-<div class="dropdown">
-<button onclick="wheelDrop()" class="dropbtn"><a id="w_dropdown-text">Select Frame Size  &#9660;</a></button>
-  <div id="w_Dropdown" class="dropdown-content">
-    <a onclick="ts()">27.5</a>
-    <a onclick="tn()">29</a>
+<div align="center">
+  <h1><p id="fork name">forkName</p></h1>
+</div>
+
+<div align="center">
+  fork size:
+  <div class="dropdown">
+  <button onclick="travelDrop()" class="dropbtn"><a id="travel_dropdown-text">Select fork travel  &#9660;</a></button>
+    <div id="travel_Dropdown" class="dropdown-content">
+      <a onclick="fifty()">150</a>
+      <a onclick="sixty()">160</a>
+      <a onclick="seventy()">170</a>
+      <a onclick="eighty()">180</a>
+    </div>
+  </div>
+
+  <div class="dropdown">
+  <button onclick="wheelDrop()" class="dropbtn"><a id="wheel_dropdown-text">Select Wheel Size  &#9660;</a></button>
+    <div id="wheel_Dropdown" class="dropdown-content">
+      <a onclick="ts()">27.5</a>
+      <a onclick="tn()">29</a>
+    </div>
+  </div>
+
+  <p id="price" style="display: none;">Price: $1000</p>
+  <div>
+    <button id="addButton" onclick="add()" style="display: none;">Add to list</button>
   </div>
 </div>
 
-Travel:
-<div class="dropdown">
-<button onclick="travelDrop()" class="dropbtn"><a id="t_dropdown-text">Select Travel Length  &#9660;</a></button>
-  <div id="t_Dropdown" class="dropdown-content">
-    <a onclick="fifty()">150</a>
-    <a onclick="sixty()">160</a>
-    <a onclick="seventy()">170</a>
-    <a onclick="eighty()">180</a>
-  </div>
-</div>
-
-<!-- TODO make this not hard-coded !-->
-<p id="price">Price: $550</p>
-
-<div>
-  <button id="addButton" onclick="add()" style="display: none;">Add to list</button>
-</div>
-
-</body>
 
 <script>
-//Configurable variables
+
+//configurable variables
 var forkName = "Rockshox Lyrik";
+var price = 1000;
+
 //setting config variables to places on page
 window.onload = function main(){
   document.getElementById("fork name").innerHTML = forkName;
 }
-//Back button
-function back(){
-  window.location.href="../../main.html";
-}
-//Dropdowns
-function wheelDrop(){
-  document.getElementById("w_Dropdown").classList.toggle("show");
-}
-function travelDrop(){
-  document.getElementById("t_Dropdown").classList.toggle("show");
-}
 
-window.onclick = function(event) {
-  // Close the dropdown if the user clicks outside of it
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
+//TODO Add more dropdowns for colour, etc
+//TODO Add pictures for items
+//TODO Add price management from different websites
+
+  //Back button
+  function back(){
+    window.location.href="../../index.html";
+  }
+
+  //fork size dropdown
+  function forkDrop() {
+      document.getElementById("travel_Dropdown").classList.toggle("show");
+  }
+  function wheelDrop(){
+      document.getElementById("wheel_Dropdown").classList.toggle("show");
+  }
+
+  window.onclick = function(event) {
+    // Close the dropdown if the user clicks outside of it
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
       }
     }
-  }
 
-  //if all selections are made, show add to list button
-  if((travel != null) && (wheelSize != null)){
-    document.getElementById("addButton").style.display = "block";
+    //if all selections are made, show add to list button
+    if((forkTravelSelection != null) && (wheelSizeSelection != null)){
+      document.getElementById("addButton").style.display = "block";
+  }
 }
+
+//dropdown selection functions
+var forkSizeSelection, wheelSizeSelection;
+//TODO make selectSize function that uses an argument to replace all these individual functions
+function small(){
+    document.getElementById("f_dropdown-text").innerHTML = "Small";
+    forkSizeSelection = "small";
 }
-//Dropdown selection functions
-var wheelSize;
+function medium(){
+    document.getElementById("f_dropdown-text").innerHTML = "Medium";
+    forkSizeSelection = "medium";
+}
+function large(){
+    document.getElementById("f_dropdown-text").innerHTML = "Large";
+    forkSizeSelection = "large";
+}
+function xLarge(){
+    document.getElementById("f_dropdown-text").innerHTML = "X-Large";
+    forkSizeSelection = "x-large";
+}
+
 function ts(){
-  document.getElementById("w_dropdown-text").innerHTML = "27.5";
-  wheelSize = 27.5;
+    document.getElementById("s_dropdown-text").innerHTML = "27.5";
+    wheelSizeSelection = "27.5";
 }
 function tn(){
-  document.getElementById("w_dropdown-text").innerHTML = "29";
-  wheelSize = 29;
+  document.getElementById("s_dropdown-text").innerHTML = "29";
+  wheelSizeSelection = "29";
+}
+function aluminum(){
+  document.getElementById("m_dropdown-text").innerHTML = "Aluminum";
+  materialSelection = "aluminum";
+  //set and show price
+  price = aPrice;
+  document.getElementById("price").innerHTML = "Price: $"+price;
+  document.getElementById("price").style.display = "block";
+}
+function carbon(){
+  document.getElementById("m_dropdown-text").innerHTML = "Carbon";
+  materialSelection = "carbon";
+  //set and show price
+  price = cPrice
+  document.getElementById("price").innerHTML = "Price: $"+price;
+  document.getElementById("price").style.display = "block";
 }
 
-var travel;
-function fifty(){
-  document.getElementById("t_dropdown-text").innerHTML = "150";
-  travel = 150;
-}
-function sixty(){
-  document.getElementById("t_dropdown-text").innerHTML = "160";
-  travel = 160;
-}
-function seventy(){
-  document.getElementById("t_dropdown-text").innerHTML = "170";
-  travel = 170;
-}
-function eighty(){
-  document.getElementById("t_dropdown-text").innerHTML = "180";
-  travel = 180;
-}
-
-//Add function
 function add(){
-  //if you already have a frame selected, show error
-  if((document.cookie).includes("Fork=Rockshox")){//TODO: change this so its not hard coded
-    window.alert("You have already selected a fork! Remove the one on your build first.");
+  //if you already have a fork selected, show error
+  //Set cookieString to cookie
+  var cookieString = decodeURIComponent(document.cookie);
+  //Set isfork_string1 to text that comes after "isfork" in cookieString
+  var isfork_string = cookieString.substring(cookieString.indexOf("isfork=")+8);
+  //If there is a space in isfork_string1, set isfork_string to end before the space
+  if(isfork_string.includes(" ")){
+    isfork_string = isfork_string1.substring(0, isfork_string1.indexOf(" "));
   }
+  //if isfork_string includes a semi-colon, remove it
+  if(isfork_string.includes(';')){
+    isfork_string = isfork_string.replace(';','');
+  }
+  console.log("isfork_string = " + isfork_string);
+  if(isfork_string == "false"){ //if there is no fork in currentBuild, then add this one
+    //PHP method
+    console.log("adding fork");
+    addRequest = new XMLHttpRequest();
+    addRequest.onreadystatechange = function() {
+       if (addRequest.status == 200) {
+         console.log(addRequest.responseText);
+         //addRequest.abort();
+         window.location.href="../../index.html";
+       }
+     };
+     addRequest.open("GET","addToBuild.php?forkId=1&size="+forkSizeSelection+"&material="+materialSelection+"&wheelsize="+wheelSizeSelection+"&price="+price,true);
+     addRequest.send();
+  }
+  //if there is a fork selected
   else{
-    
-    /*
-    //TODO Depricate cookies, use JSON
-    //set cookie and fo back to main page
-    document.cookie = "Fork=Rockshox Lyrik ("+wheelSize+"\", "+travel+"mm) $550;";
-    */
-
-    //Add fork ID to cookie
-    document.cookie = "Fork=2001-"+wheelSize+"-"+travel+"-"+"550";
-
-    //Return to home page
-    window.location.href="../../main.html";
+    window.alert("You already have a fork selected!");
   }
   //TODO Add filter system
   //TODO Only show compatible parts
   //TODO Add more parts
+  //TODO Add options (size, wheel size, material, etc)
 }
+
+//Check if fork is in currentBuild
+function isfork(){
+  var isforkRequest = new XMLHttpRequest();
+  isforkRequest.onreadystatechange = function(){
+    //console.log("isforkRequest status = " + isforkRequest.status);
+    if(isforkRequest.readyState == 4 && isforkRequest.status == 200){
+      if(isforkRequest.responseText != ""){
+        console.log(isforkRequest.responseText);
+        //isforkRequest.abort();
+        document.cookie = "isfork=true";
+      }
+      else{
+        //isforkRequest.abort();
+        console.log("no fork selected");
+        document.cookie = "isfork=false";
+      }
+    }
+  };
+  isforkRequest.open("GET", "isfork.php", true);
+  isforkRequest.send();
+}
+
 </script>
 </body>
 </html>

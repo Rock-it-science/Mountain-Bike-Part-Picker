@@ -16,8 +16,9 @@ if($conn->connect_error){
 $partTypeIdString = $partType . "Id";
 $partTypeOptionsString = $partType . "Options";
 $partTypePriceString = $partType . "Price";
+$tableString = $partType . "Build";
 
-//Checking if frame partType exists in currentBuild table
-$result = $conn->query("UPDATE currentBuild SET $partTypeIdString='', $partTypeOptionsString='', $partTypePriceString='' WHERE userId = 0;");
+//Checking if frame partType exists in buildFrame table
+$result = $conn->query("UPDATE $tableString SET $partTypeIdString='', $partTypeOptionsString='', $partTypePriceString='' WHERE userId = 0;");
 echo $result;
  ?>

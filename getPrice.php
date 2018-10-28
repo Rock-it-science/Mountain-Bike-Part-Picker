@@ -3,6 +3,7 @@
 //Echo price from currentBuild
 $partType = $_REQUEST["pt"];
 $partTypePriceString = $partType . "Price";
+$tableString = $partType . "Build";
 
 $servername = "localhost";
 $username = "root";
@@ -15,7 +16,7 @@ if($conn->connect_error){
   die("Connection failed: ". $conn->connect_error);
 }
 
-$price = $conn->query("SELECT $partTypePriceString FROM currentBuild WHERE userId=0;");
+$price = $conn->query("SELECT $partTypePriceString FROM $tableString WHERE userId=0;");
 if($row = $price->fetch_assoc()){
   echo $row["$partTypePriceString"];
 }

@@ -114,10 +114,8 @@ function isFrame(){
   var isFrameRequest = new XMLHttpRequest();
 
   isFrameRequest.onreadystatechange = function() {
-    //console.log("sending request");
-    //console.log("isFrameRequest status = " + isFrameRequest.status);
     if(isFrameRequest.readyState == 4 && isFrameRequest.status == 200){
-      //console.log("request successful");
+      console.log("request successful");
       if(isFrameRequest.responseText != ""){//responseText from isFrame.php means there is a frame selected
         console.log(isFrameRequest.responseText); //Should output "frame selected"
         document.cookie = "isFrame=true";
@@ -131,7 +129,7 @@ function isFrame(){
     }
   }
 
-  isFrameRequest.open("GET", "isFrame.php", true);
+  isFrameRequest.open("GET", "isPart.php?pt=frame", true);
   isFrameRequest.send();
 }
 

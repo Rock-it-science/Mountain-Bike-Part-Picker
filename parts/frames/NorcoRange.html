@@ -59,10 +59,10 @@
   <div class="dropdown">
   <button onclick="frameDrop()" class="dropbtn"><a id="f_dropdown-text">Select Frame Size  &#9660;</a></button>
     <div id="f_Dropdown" class="dropdown-content">
-      <a onclick="small()">Small</a>
-      <a onclick="medium()">Medium</a>
-      <a onclick="large()">Large</a>
-      <a onclick="xLarge()">X-Large</a>
+      <a onclick="selectSize(&quot;small&quot;)">Small</a>
+      <a onclick="selectSize(&quot;medium&quot;)">Medium</a>
+      <a onclick="selectSize(&quot;large&quot;)">Large</a>
+      <a onclick="selectSize(&quot;Large&quot;)">X-Large</a>
     </div>
   </div>
 
@@ -144,22 +144,9 @@ window.onload = function main(){
 
 //dropdown selection functions
 var frameSizeSelection, wheelSizeSelection, materialSelection;
-//TODO make selectSize function that uses an argument to replace all these individual functions
-function small(){
-    document.getElementById("f_dropdown-text").innerHTML = "Small";
-    frameSizeSelection = "small";
-}
-function medium(){
-    document.getElementById("f_dropdown-text").innerHTML = "Medium";
-    frameSizeSelection = "medium";
-}
-function large(){
-    document.getElementById("f_dropdown-text").innerHTML = "Large";
-    frameSizeSelection = "large";
-}
-function xLarge(){
-    document.getElementById("f_dropdown-text").innerHTML = "X-Large";
-    frameSizeSelection = "x-large";
+function selectSize(size){
+  document.getElementById("f_dropdown-text").innerHTML = size;
+  frameSizeSelection = size;
 }
 
 function ts(){
@@ -213,7 +200,7 @@ function add(){
          window.location.href="../../index.html";
        }
      };
-     addRequest.open("GET","addToBuild.php?frameId=1&size="+frameSizeSelection+"&material="+materialSelection+"&wheelsize="+wheelSizeSelection+"&price="+price,true);
+     addRequest.open("GET","addFrameToBuild.php?frameId=1&size="+frameSizeSelection+"&material="+materialSelection+"&wheelsize="+wheelSizeSelection+"&price="+price,true);
      addRequest.send();
   }
   //if there is a frame selected

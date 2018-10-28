@@ -1,9 +1,13 @@
 <?php
-//TODO make this non-specific to frames and/or put in a folder called compatibility
+//Check if a given part is currently in build by checking if the partTypeID is not null
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "mtbpp";
+
+$partType = $_REQUEST["pt"];
+$tableString = $partType . "Build";
+$idString = $partType . "ID";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -12,10 +16,10 @@ if($conn->connect_error){
 }
 
 //Checking if frame partType exists in currentBuild table
-$result = $conn->query("SELECT frameId FROM frameBuild;");
+$result = $conn->query("SELECT $idString FROM $tableString;");
 $row = $result->fetch_assoc();
-$frameId = $row["frameId"];
-if(($frameId) && ($frameId != "")){
-  echo "frame selected";
+$id = $row["$idString"];
+if($id && ($id != 0)){
+  echo "part selected";
 }
  ?>
