@@ -2,8 +2,6 @@
 <meta charset="utf-8"/>
 <html>
 <style>
-/* TODO Fix this*/
-
 /* Dropdown Button */
 .dropbtn {
     border: none;
@@ -54,22 +52,22 @@
 </div>
 
 <div align="center">
-  fork size:
+  Fork options:
   <div class="dropdown">
   <button onclick="travelDrop()" class="dropbtn"><a id="travel_dropdown-text">Select fork travel  &#9660;</a></button>
     <div id="travel_Dropdown" class="dropdown-content">
-      <a onclick="fifty()">150</a>
-      <a onclick="sixty()">160</a>
-      <a onclick="seventy()">170</a>
-      <a onclick="eighty()">180</a>
+      <a onclick="selectTravel(150)">150</a>
+      <a onclick="selectTravel(160)">160</a>
+      <a onclick="selectTravel(170)">170</a>
+      <a onclick="selectTravel(180)">180</a>
     </div>
   </div>
 
   <div class="dropdown">
   <button onclick="wheelDrop()" class="dropbtn"><a id="wheel_dropdown-text">Select Wheel Size  &#9660;</a></button>
     <div id="wheel_Dropdown" class="dropdown-content">
-      <a onclick="ts()">27.5</a>
-      <a onclick="tn()">29</a>
+      <a onclick="selectWheelSize(27.5)">27.5</a>
+      <a onclick="selectWheelSize(29)">29</a>
     </div>
   </div>
 
@@ -101,7 +99,7 @@ window.onload = function main(){
   }
 
   //fork size dropdown
-  function forkDrop() {
+  function travelDrop() {
       document.getElementById("travel_Dropdown").classList.toggle("show");
   }
   function wheelDrop(){
@@ -128,48 +126,16 @@ window.onload = function main(){
 }
 
 //dropdown selection functions
-var forkSizeSelection, wheelSizeSelection;
-//TODO make selectSize function that uses an argument to replace all these individual functions
-function small(){
-    document.getElementById("f_dropdown-text").innerHTML = "Small";
-    forkSizeSelection = "small";
-}
-function medium(){
-    document.getElementById("f_dropdown-text").innerHTML = "Medium";
-    forkSizeSelection = "medium";
-}
-function large(){
-    document.getElementById("f_dropdown-text").innerHTML = "Large";
-    forkSizeSelection = "large";
-}
-function xLarge(){
-    document.getElementById("f_dropdown-text").innerHTML = "X-Large";
-    forkSizeSelection = "x-large";
+var forkTravelSelection, wheelSizeSelection;
+
+function selectTravel(travel){
+  document.getElementById("travel_dropdown-text").innerHTML = travel;
+  forkTravelSelection = travel;
 }
 
-function ts(){
-    document.getElementById("s_dropdown-text").innerHTML = "27.5";
-    wheelSizeSelection = "27.5";
-}
-function tn(){
-  document.getElementById("s_dropdown-text").innerHTML = "29";
-  wheelSizeSelection = "29";
-}
-function aluminum(){
-  document.getElementById("m_dropdown-text").innerHTML = "Aluminum";
-  materialSelection = "aluminum";
-  //set and show price
-  price = aPrice;
-  document.getElementById("price").innerHTML = "Price: $"+price;
-  document.getElementById("price").style.display = "block";
-}
-function carbon(){
-  document.getElementById("m_dropdown-text").innerHTML = "Carbon";
-  materialSelection = "carbon";
-  //set and show price
-  price = cPrice
-  document.getElementById("price").innerHTML = "Price: $"+price;
-  document.getElementById("price").style.display = "block";
+function selectWheelSize(size){
+    document.getElementById("wheel_dropdown-text").innerHTML = size;
+    wheelSizeSelection = size;
 }
 
 function add(){
@@ -177,7 +143,7 @@ function add(){
   //Set cookieString to cookie
   var cookieString = decodeURIComponent(document.cookie);
   //Set isfork_string1 to text that comes after "isfork" in cookieString
-  var isfork_string = cookieString.substring(cookieString.indexOf("isfork=")+8);
+  var isfork_string = cookieString.substring(cookieString.indexOf("isfork=")+9);
   //If there is a space in isfork_string1, set isfork_string to end before the space
   if(isfork_string.includes(" ")){
     isfork_string = isfork_string1.substring(0, isfork_string1.indexOf(" "));
@@ -198,7 +164,7 @@ function add(){
          window.location.href="../../index.html";
        }
      };
-     addRequest.open("GET","addToBuild.php?forkId=1&size="+forkSizeSelection+"&material="+materialSelection+"&wheelsize="+wheelSizeSelection+"&price="+price,true);
+     addRequest.open("GET","addForkToBuild.php?forkId=1&size="+forkTravelSelection+"&wheelsize="+wheelSizeSelection+"&price="+price,true);
      addRequest.send();
   }
   //if there is a fork selected

@@ -9,10 +9,9 @@ echo("addToBuild started");
 $userId = 0;
 
 //TODO make a function that does all these automatically
-$frameId = $_REQUEST["frameId"];
+$forkId = $_REQUEST["forkId"];
 $price = $_REQUEST["price"];
-$size = $_REQUEST["size"];
-$material = $_REQUEST["material"];
+$travel = $_REQUEST["travel"];
 $wheelsize = $_REQUEST["wheelsize"];
 
 $servername = "localhost";
@@ -26,14 +25,14 @@ if($conn->connect_error){
   die("Connection failed: " . $conn->connect_error);
 }
 //Frame options string
-$options = $size . " " . $material . " " . $wheelsize;
+$options = $travel . " " . $wheelsize;
 
-//Adding part to currentBuild table
+//Adding part to forkBuild table
 //If there is already a row for this userId, append to it rather than trying to add a new line
-$checkRow = $conn->query("SELECT * FROM currentBuild WHERE userId=0;");
+//$checkRow = $conn->query("SELECT * FROM forkBuild WHERE userId=0;");
 
-//Adding to currentbuild table, TODO make this dependant on userId
-$result = $conn->query("UPDATE currentBuild SET frameId=$frameId, frameOptions='$options', framePrice=$price WHERE userId=0;");
+//Adding to forkbuild table, TODO make this dependant on userId
+$result = $conn->query("UPDATE forkBuild SET forkID=$frameId, forkOptions='$options', forkPrice=$price WHERE userID=0;");
 
 //Worry about userId stuff later
 /*if($checkRow->fetch_assoc()){

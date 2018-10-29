@@ -12,9 +12,9 @@ if($conn->connect_error){
 }
 
 //Checking if fork partType exists in currentBuild table
-$result = $conn->query("SELECT forkId FROM forkBuild;");
+$result = $conn->query("SELECT forkID FROM forkBuild;");
 $row = $result->fetch_assoc();
-$forkId = $row["forkId"];
+$forkId = $row["forkID"];
 if(($forkId) && ($forkId != "")){
   echo "fork selected";
 }
