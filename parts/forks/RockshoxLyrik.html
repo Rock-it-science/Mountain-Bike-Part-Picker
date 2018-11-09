@@ -144,9 +144,7 @@ function selectWheelSize(size){
 
 async function add(){
   isFork(function(b){//Callback function to be executed after isFork
-    var isf = b;
-    console.log(isf);
-    if(!isf){ //if there is no fork in currentBuild, then add this one
+    if(!b){ //if there is no fork in currentBuild, then add this one
       //PHP method
       console.log("adding fork");
       addRequest = new XMLHttpRequest();
@@ -167,7 +165,7 @@ async function add(){
   });
 }
 
-//Check if fork is in currentBuild
+//Check if fork is selected
 async function isFork(callback){
   var isforkRequest = new XMLHttpRequest();
   let forkPromise = new Promise((resolve, reject) => {
