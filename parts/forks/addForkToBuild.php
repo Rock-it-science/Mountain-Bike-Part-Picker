@@ -32,7 +32,7 @@ $options = $travel . " " . $wheelsize;
 //$checkRow = $conn->query("SELECT * FROM forkBuild WHERE userId=0;");
 
 //Adding to forkbuild table, TODO make this dependant on userId
-$result = $conn->query("UPDATE forkBuild SET forkID=$frameId, forkOptions='$options', forkPrice=$price WHERE userID=0;");
+$result = $conn->query("UPDATE forkBuild SET forkID=$forkId, forkOptions='$options', forkPrice=$price WHERE userID=0;");
 
 //Worry about userId stuff later
 /*if($checkRow->fetch_assoc()){

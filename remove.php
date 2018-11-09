@@ -19,6 +19,6 @@ $partTypePriceString = $partType . "Price";
 $tableString = $partType . "Build";
 
 //Checking if frame partType exists in buildFrame table
-$result = $conn->query("UPDATE $tableString SET $partTypeIdString='', $partTypeOptionsString='', $partTypePriceString='' WHERE userId = 0;");
+$result = $conn->query("UPDATE $tableString SET $partTypeIdString=null, $partTypeOptionsString='', $partTypePriceString=null WHERE userId = 0;");
 echo $result;
  ?>

@@ -12,8 +12,10 @@ if($conn->connect_error){
 }
 
 //Checking if frame partType exists in currentBuild table
-$result = $conn->query("SELECT partType FROM currentBuild;");
-if($result->num_rows > 0){
-  echo "You can only have one frame selected at a time";
+$result = $conn->query("SELECT frameID FROM frameBuild;");
+$row = $result->fetch_assoc();
+$frameId = $row["frameID"];
+if(($frameId) && ($frameId != "")){
+  echo "frame selected";
 }
  ?>

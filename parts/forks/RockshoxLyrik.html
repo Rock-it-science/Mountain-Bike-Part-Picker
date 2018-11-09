@@ -92,6 +92,10 @@ window.onload = function main(){
 //TODO Add more dropdowns for colour, etc
 //TODO Add pictures for items
 //TODO Add price management from different websites
+//TODO Add filter system
+//TODO Only show compatible parts
+//TODO Add more parts
+//TODO Add options (size, wheel size, material, etc)
 
   //Back button
   function back(){
@@ -138,65 +142,56 @@ function selectWheelSize(size){
     wheelSizeSelection = size;
 }
 
-function add(){
-  //if you already have a fork selected, show error
-  //Set cookieString to cookie
-  var cookieString = decodeURIComponent(document.cookie);
-  //Set isfork_string1 to text that comes after "isfork" in cookieString
-  var isfork_string = cookieString.substring(cookieString.indexOf("isfork=")+9);
-  //If there is a space in isfork_string1, set isfork_string to end before the space
-  if(isfork_string.includes(" ")){
-    isfork_string = isfork_string1.substring(0, isfork_string1.indexOf(" "));
-  }
-  //if isfork_string includes a semi-colon, remove it
-  if(isfork_string.includes(';')){
-    isfork_string = isfork_string.replace(';','');
-  }
-  console.log("isfork_string = " + isfork_string);
-  if(isfork_string == "false"){ //if there is no fork in currentBuild, then add this one
-    //PHP method
-    console.log("adding fork");
-    addRequest = new XMLHttpRequest();
-    addRequest.onreadystatechange = function() {
-       if (addRequest.status == 200) {
-         console.log(addRequest.responseText);
-         //addRequest.abort();
-         window.location.href="../../index.html";
-       }
-     };
-     addRequest.open("GET","addForkToBuild.php?forkId=1&size="+forkTravelSelection+"&wheelsize="+wheelSizeSelection+"&price="+price,true);
-     addRequest.send();
-  }
-  //if there is a fork selected
-  else{
-    window.alert("You already have a fork selected!");
-  }
-  //TODO Add filter system
-  //TODO Only show compatible parts
-  //TODO Add more parts
-  //TODO Add options (size, wheel size, material, etc)
+async function add(){
+  isFork(function(b){//Callback function to be executed after isFork
+    var isf = b;
+    console.log(isf);
+    if(!isf){ //if there is no fork in currentBuild, then add this one
+      //PHP method
+      console.log("adding fork");
+      addRequest = new XMLHttpRequest();
+      addRequest.onreadystatechange = function() {
+         if (addRequest.status == 200) {
+           console.log(addRequest.responseText);
+           //addRequest.abort();
+           window.location.href="../../index.html";
+         }
+       };
+       addRequest.open("GET","addForkToBuild.php?forkId=1&size="+forkTravelSelection+"&wheelsize="+wheelSizeSelection+"&price="+price,true);
+       addRequest.send();
+    }
+    //if there is a fork selected
+    else{
+      window.alert("You already have a fork selected!");
+    }
+  });
 }
 
 //Check if fork is in currentBuild
-function isfork(){
+async function isFork(callback){
   var isforkRequest = new XMLHttpRequest();
-  isforkRequest.onreadystatechange = function(){
-    //console.log("isforkRequest status = " + isforkRequest.status);
-    if(isforkRequest.readyState == 4 && isforkRequest.status == 200){
-      if(isforkRequest.responseText != ""){
-        console.log(isforkRequest.responseText);
-        //isforkRequest.abort();
-        document.cookie = "isfork=true";
+  let forkPromise = new Promise((resolve, reject) => {
+    isforkRequest.onreadystatechange = function check(){
+      //console.log("isforkRequest status = " + isforkRequest.status);
+      if(isforkRequest.readyState == 4 && isforkRequest.status == 200){
+        if(isforkRequest.responseText != ""){
+          //Fork is selected
+          console.log(isforkRequest.responseText);
+          resolve(true);
+        }
+        else{
+          //Fork not selected
+          console.log("no fork selected");
+          resolve(false);
+        }
       }
-      else{
-        //isforkRequest.abort();
-        console.log("no fork selected");
-        document.cookie = "isfork=false";
-      }
-    }
-  };
+    };
+  });
   isforkRequest.open("GET", "isfork.php", true);
   isforkRequest.send();
+  let b = await forkPromise;
+  console.log(b);
+  callback(b);
 }
 
 </script>
