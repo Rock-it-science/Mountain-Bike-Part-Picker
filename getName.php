@@ -16,13 +16,15 @@ if($conn->connect_error){
 $partTypeIdString = $partType . "Id";
 $partTypeOptionsString = $partType . "Options";
 $tableString = $partType . "Build";
+$partTypeS = $partType . "s";
+
 $result1 = $conn->query("SELECT $partTypeIdString, $partTypeOptionsString FROM $tableString WHERE userId=0;");
 if($row = $result1->fetch_assoc()){
   $id = $row["$partTypeIdString"];
   $options = $row["$partTypeOptionsString"];
 }
 
-$result2 = $conn->query("SELECT brand, model FROM frames WHERE id=$id;");
+$result2 = $conn->query("SELECT brand, model FROM $partTypeS WHERE id=$id;");
 $frameInfo = '';
 if($row = $result2->fetch_assoc()){
   $frameInfo = $row["brand"] . " ". $row["model"];
