@@ -1,7 +1,7 @@
 <?php
-//Use partType variable passed from call to get the id of that item from currentBuild,
-// and then get information from the frames table about that partid
+//Use id passed from call to get information from the frames table about that partid
 $partType = $_REQUEST["pt"];
+$id = $_REQUEST["id"];
 
 $servername = "localhost";
 $username = "root";
@@ -13,17 +13,13 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if($conn->connect_error){
   die("Connection failed: ". $conn->connect_error);
 }
+//Setting up variables
 $partTypeIdString = $partType . "Id";
 $partTypeOptionsString = $partType . "Options";
 $tableString = $partType . "Build";
 $partTypeS = $partType . "s";
 
-$result1 = $conn->query("SELECT $partTypeIdString, $partTypeOptionsString FROM $tableString WHERE userId=0;");
-if($row = $result1->fetch_assoc()){
-  $id = $row["$partTypeIdString"];
-  $options = $row["$partTypeOptionsString"];
-}
-
+//Getting name from part table
 $result2 = $conn->query("SELECT brand, model FROM $partTypeS WHERE id=$id;");
 $frameInfo = '';
 if($row = $result2->fetch_assoc()){

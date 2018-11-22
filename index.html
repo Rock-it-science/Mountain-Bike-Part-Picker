@@ -182,7 +182,7 @@ function hide_buttons(){
 //async function for getting frame info and updating it in the main table
 async function getFrameInfo(){
   //console.log("getting frame info");
-  getInfoRequest("getName.php?pt=frame").then(function(response){
+  getInfoRequest("getNameNoID.php?pt=frame").then(function(response){
     frame_name = response;
     document.getElementById("frame_name").innerHTML = frame_name;
   });
@@ -197,7 +197,7 @@ async function getFrameInfo(){
 
 async function getForkInfo(){
   console.log("get fork info called");
-  getInfoRequest("getName.php?pt=fork").then(function(response){
+  getInfoRequest("getNameNoID.php?pt=fork").then(function(response){
     fork_name = response;
     document.getElementById("fork_name").innerHTML = fork_name;
   });
@@ -209,7 +209,7 @@ async function getForkInfo(){
   });
 }
 
-//Get info request new attempt
+//Get info of any part from server
 function getInfoRequest(url){
   console.log("info request created for "+url);
   return new Promise(function(resolve){

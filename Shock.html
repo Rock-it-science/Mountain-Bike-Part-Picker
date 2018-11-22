@@ -10,26 +10,55 @@
       <th>View Part</th>
     </tr>
     <tr>
-      <td>Rockshox Super Deluxe Air</td>
-      <td>$400</td>
+      <td><p id=shockText></p></td>
+      <td><p id=shockPriceText></p></td>
       <td align="center"><button onclick="add()">Select</button></td>
     </tr>
   </table>
-  <script>
-    function add(){
-      //if you already have a frame selected, show error
-      if((document.cookie).includes("Shock=Rockshox")){//TODO: change this so its not hard coded
-        window.alert("You have already selected a Shock! Remove the one on your build first.");
+<script>
+
+getShockInfo();
+
+//Get shock info from server
+async function getShockInfo(){
+  getInfoRequest("getName.php?pt=shock&id=1").then(function(response){
+    document.getElementById("shockText").innerHTML = response;
+  });
+  getInfoRequest("getPrice.php?pt=shock").then(function(response){
+    document.getElementById("shockPrice").innerHTML = "$"+response;
+  });
+}
+
+//Get info of any part from server
+function getInfoRequest(url){
+  console.log("info request created for "+url);
+  return new Promise(function(resolve){
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.onload = function(){
+      if(this.status == 200){
+        console.log("request successful");
+        resolve(xhr.response);
       }
-      else{
-        //set cookie and fo back to main page
-        document.cookie = "Shock=Rockshox Super Deluxe Air $400;";
-        window.location.href="main.html";
-      }
-      //TODO Add filter system
-      //TODO Only show compatible parts
-      //TODO Add more parts
-    }
-  </script>
+    };
+    xhr.send();
+  });
+}
+
+function add(){
+  //if you already have a frame selected, show error
+  if((document.cookie).includes("Shock=Rockshox")){//TODO: change this so its not hard coded
+    window.alert("You have already selected a Shock! Remove the one on your build first.");
+  }
+  else{
+    //set cookie and fo back to main page
+    document.cookie = "Shock=Rockshox Super Deluxe Air $400;";
+    window.location.href="index.html";
+  }
+  //TODO Add filter system
+  //TODO Only show compatible parts
+  //TODO Add more parts
+}
+</script>
 </body>
 </html>
