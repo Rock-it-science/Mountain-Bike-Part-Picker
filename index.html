@@ -120,7 +120,7 @@ async function isFrame(callback){
       }
     };
   });
-  isframeRequest.open("GET", "isPart.php?pt=frame", true);
+  isframeRequest.open("GET", "php/isPart.php?pt=frame", true);
   isframeRequest.send();
   let b = await framePromise;
   console.log(b);
@@ -147,7 +147,7 @@ async function isFork(callback){
       }
     };
   });
-  isforkRequest.open("GET", "isPart.php?pt=fork", true);
+  isforkRequest.open("GET", "php/isPart.php?pt=fork", true);
   isforkRequest.send();
   let b = await forkPromise;
   console.log(b);
@@ -174,7 +174,7 @@ async function isShock(callback){
       }
     };
   });
-  isshockRequest.open("GET", "isPart.php?pt=shock", true);
+  isshockRequest.open("GET", "php/isPart.php?pt=shock", true);
   isshockRequest.send();
   let b = await shockPromise;
   console.log(b);
@@ -192,7 +192,7 @@ function remove(Item){
       location.reload(true);
     }
   };
-  removeRequest.open("GET", "remove.php?pt="+Item, true);
+  removeRequest.open("GET", "php/remove.php?pt="+Item, true);
   removeRequest.send();
 
 }
@@ -214,11 +214,11 @@ function hide_buttons(){
 //async function for getting frame info and updating it in the main table
 async function getFrameInfo(){
   //console.log("getting frame info");
-  getInfoRequest("getNameNoID.php?pt=frame").then(function(response){
+  getInfoRequest("php/getNameNoID.php?pt=frame").then(function(response){
     frame_name = response;
     document.getElementById("frame_name").innerHTML = frame_name;
   });
-  getInfoRequest("getPrice.php?pt=frame").then(function(response){
+  getInfoRequest("php/getPrice.php?pt=frame").then(function(response){
     //console.log(response);
     framePrice = response;
     document.getElementById("frame_price").innerHTML = "$"+framePrice;
@@ -229,11 +229,11 @@ async function getFrameInfo(){
 
 async function getForkInfo(){
   console.log("get fork info called");
-  getInfoRequest("getNameNoID.php?pt=fork").then(function(response){
+  getInfoRequest("php/getNameNoID.php?pt=fork").then(function(response){
     fork_name = response;
     document.getElementById("fork_name").innerHTML = fork_name;
   });
-  getInfoRequest("getPrice.php?pt=fork").then(function(response){
+  getInfoRequest("php/getPrice.php?pt=fork").then(function(response){
     forkPrice = response;
     document.getElementById("fork_price").innerHTML = "$"+forkPrice;
     //Update total price
@@ -243,11 +243,11 @@ async function getForkInfo(){
 
 async function getShockInfo(){
   console.log("get shock info called");
-  getInfoRequest("getNameNoID.php?pt=shock").then(function(response){
+  getInfoRequest("php/getNameNoID.php?pt=shock").then(function(response){
     shock_name = response;
     document.getElementById("shock_name").innerHTML = shock_name;
   });
-  getInfoRequest("getPrice.php?pt=shock").then(function(response){
+  getInfoRequest("php/getPrice.php?pt=shock").then(function(response){
     shockPrice = response;
     document.getElementById("shock_price").innerHTML = "$"+shockPrice;
     //Update total price
