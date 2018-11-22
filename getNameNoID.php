@@ -15,7 +15,7 @@ if($conn->connect_error){
 //Setting up variables
 $partTypeIdString = $partType . "Id";
 $partTypeOptionsString = $partType . "Options";
-$tableString = $partType . "Build";
+$tableString = $partType . "build";
 $partTypeS = $partType . "s";
 
 //Get id and options from current build

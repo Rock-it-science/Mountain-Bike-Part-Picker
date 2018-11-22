@@ -69,8 +69,9 @@ function intro(){
   //hide remove-part buttons
   hide_buttons();
 
+  //When adding more parts, chain them here using .then
   //If a frame is selected, show its info on the table
-  isFrame(function(b){//callback from isFrame
+  isFrame(function(b){//Check if frame is selected (callback from isFrame)
     if(b){
       //Getting details from server
       getFrameInfo();
@@ -78,14 +79,18 @@ function intro(){
       document.getElementById("removeFrame_button").style.display = 'block';
     }
   }).then(isFork(function(b){//Check if fork is selected
-    console.log("checking for fork");
     if(b){
-      console.log("fork selected");
       getForkInfo();
       //show remove fork button
       document.getElementById("removeFork_button").style.display = 'block';
     }
-  }).then(main()));
+  }).then(isShock(function(b){//Check if shock is selected
+      if(b){
+        getShockInfo();
+        //show remove shock button
+        document.getElementById("removeShock_button").style.display = 'block';
+      }
+  })).then(main()));
 }
 function main(){
   //declaring some variables
@@ -149,6 +154,33 @@ async function isFork(callback){
   callback(b);
 }
 
+//Check if shock is selected
+async function isShock(callback){
+  var isshockRequest = new XMLHttpRequest();
+  let shockPromise = new Promise((resolve, reject) => {
+    isshockRequest.onreadystatechange = function check(){
+      //console.log("isshockRequest status = " + isshockRequest.status);
+      if(isshockRequest.readyState == 4 && isshockRequest.status == 200){
+        if(isshockRequest.responseText != ""){
+          //Shock is selected
+          console.log(isshockRequest.responseText);
+          resolve(true);
+        }
+        else{
+          //Shock not selected
+          console.log("no shock selected");
+          resolve(false);
+        }
+      }
+    };
+  });
+  isshockRequest.open("GET", "isPart.php?pt=shock", true);
+  isshockRequest.send();
+  let b = await shockPromise;
+  console.log(b);
+  callback(b);
+}
+
 //remove item from list
 function remove(Item){
   var removeRequest = new XMLHttpRequest();
@@ -206,6 +238,20 @@ async function getForkInfo(){
     document.getElementById("fork_price").innerHTML = "$"+forkPrice;
     //Update total price
     document.getElementById("total").innerHTML = "$"+String(Number(framePrice) + Number(forkPrice));
+  });
+}
+
+async function getShockInfo(){
+  console.log("get shock info called");
+  getInfoRequest("getNameNoID.php?pt=shock").then(function(response){
+    shock_name = response;
+    document.getElementById("shock_name").innerHTML = shock_name;
+  });
+  getInfoRequest("getPrice.php?pt=shock").then(function(response){
+    shockPrice = response;
+    document.getElementById("shock_price").innerHTML = "$"+shockPrice;
+    //Update total price
+    document.getElementById("total").innerHTML = "$"+String(Number(framePrice) + Number(shockPrice));
   });
 }
 

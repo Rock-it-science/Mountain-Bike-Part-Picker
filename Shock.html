@@ -46,19 +46,57 @@ function getInfoRequest(url){
 }
 
 function add(){
-  //if you already have a frame selected, show error
-  if((document.cookie).includes("Shock=Rockshox")){//TODO: change this so its not hard coded
-    window.alert("You have already selected a Shock! Remove the one on your build first.");
-  }
-  else{
-    //set cookie and fo back to main page
-    document.cookie = "Shock=Rockshox Super Deluxe Air $400;";
-    window.location.href="index.html";
-  }
-  //TODO Add filter system
-  //TODO Only show compatible parts
-  //TODO Add more parts
+  isShock(function(b){//Callback function to be executed after isshock
+    var isf = b;
+    //console.log(isf);
+    if(!isf){ //if there is no shock in currentBuild, then add this one
+      //PHP method
+      console.log("adding shock");
+      addRequest = new XMLHttpRequest();
+      addRequest.onreadystatechange = function() {
+         if (addRequest.status == 200) {
+           console.log(addRequest.responseText);
+           //addRequest.abort();
+           window.location.href="../../index.html";
+         }
+       };
+       addRequest.open("GET","addShockToBuild.php?shockId=1&price=600",true);
+       addRequest.send();
+    }
+    //if there is a shock selected
+    else{
+      window.alert("You already have a shock selected!");
+    }
+  });
 }
+
+//Check if shock is in currentBuild
+async function isShock(callback){
+  var isshockRequest = new XMLHttpRequest();
+  let shockPromise = new Promise((resolve, reject) => {
+    isshockRequest.onreadystatechange = function check(){
+      //console.log("isshockRequest status = " + isshockRequest.status);
+      if(isshockRequest.readyState == 4 && isshockRequest.status == 200){
+        if(isshockRequest.responseText != ""){
+          //Shock is selected
+          console.log(isshockRequest.responseText);
+          resolve(true);
+        }
+        else{
+          //Shock not selected
+          console.log("no shock selected");
+          resolve(false);
+        }
+      }
+    };
+  });
+  isshockRequest.open("GET", "isShock.php", true);
+  isshockRequest.send();
+  let b = await shockPromise;
+  console.log(b);
+  callback(b);
+}
+
 </script>
 </body>
 </html>
