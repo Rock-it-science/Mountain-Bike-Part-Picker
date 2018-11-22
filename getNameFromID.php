@@ -1,5 +1,5 @@
 <?php
-//Use id passed from call to get information from the frames table about that partid
+//Use id passed from call to get frome name
 $partType = $_REQUEST["pt"];
 $id = $_REQUEST["id"];
 
@@ -21,9 +21,9 @@ $partTypeS = $partType . "s";
 
 //Getting name from part table
 $result2 = $conn->query("SELECT brand, model FROM $partTypeS WHERE id=$id;");
-$frameInfo = '';
+$info = '';
 if($row = $result2->fetch_assoc()){
-  $frameInfo = $row["brand"] . " ". $row["model"];
+  $info = $row["brand"] . " ". $row["model"];
 }
-echo $frameInfo . " " . $options;
+echo $info;
  ?>

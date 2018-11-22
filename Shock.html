@@ -21,7 +21,7 @@ getShockInfo();
 
 //Get shock info from server
 async function getShockInfo(){
-  getInfoRequest("getName.php?pt=shock&id=1").then(function(response){
+  getInfoRequest("getNameFromID.php?pt=shock&id=1").then(function(response){
     document.getElementById("shockText").innerHTML = response;
   });
   getInfoRequest("getPrice.php?pt=shock").then(function(response){
