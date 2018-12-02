@@ -217,7 +217,7 @@ async function isFrame(callback){
       }
     };
   });
-  isframeRequest.open("GET", "isFrame.php", true);
+  isframeRequest.open("GET", "../../php/isPart.php?pt=frame", true);
   isframeRequest.send();
   let b = await framePromise;
   console.log(b);

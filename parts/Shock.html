@@ -90,7 +90,7 @@ async function isShock(callback){
       }
     };
   });
-  isshockRequest.open("GET", "../php/isShock.php", true);
+  isshockRequest.open("GET", "../php/isPart.php?pt=shock", true);
   isshockRequest.send();
   let b = await shockPromise;
   console.log(b);

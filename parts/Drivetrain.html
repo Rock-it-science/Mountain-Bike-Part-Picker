@@ -90,7 +90,7 @@ async function isDrivetrain(callback){
       }
     };
   });
-  isdrivetrainRequest.open("GET", "../php/isDrivetrain.php", true);
+  isdrivetrainRequest.open("GET", "../php/isPart.php?pt=drivetrain", true);
   isdrivetrainRequest.send();
   let b = await drivetrainPromise;
   console.log(b);

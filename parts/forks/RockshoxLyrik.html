@@ -185,7 +185,7 @@ async function isFork(callback){
       }
     };
   });
-  isforkRequest.open("GET", "isfork.php", true);
+  isforkRequest.open("GET", "../../php/isPart.php?pt=fork", true);
   isforkRequest.send();
   let b = await forkPromise;
   console.log(b);
