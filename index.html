@@ -11,7 +11,7 @@
     <th>Price</th>
   </tr>
   <tr bgcolor="bfbfbf">
-    <td><a href="Frame.html">Frame</a></td>
+    <td><a href="parts/frames/Frame.html">Frame</a></td>
     <td>
       <p id="frame_name" style="display:inline-table"></p>
       <button id="removeFrame_button" onclick="remove('frame')">remove</button>
@@ -20,7 +20,7 @@
     <td><p id="frame_price"></p></td>
   </tr>
   <tr bgcolor="d8d6d6">
-    <td><a href="Drivetrain.html">Drivetrain</a></td>
+    <td><a href="parts/Drivetrain.html">Drivetrain</a></td>
     <td>
       <p id="drivetrain_name" style="display:inline-table"></p>
       <button id="removeDrivetrain_button" onclick="remove('drivetrain')">remove</button>
@@ -29,7 +29,7 @@
     <td><p id="drivetrain_price"></p></td>
   </tr>
   <tr bgcolor="bfbfbf">
-    <td><a href="Fork.html">Fork</a></td>
+    <td><a href="parts/forks/Fork.html">Fork</a></td>
     <td>
       <p id="fork_name" style="display:inline-table"></p>
       <button id="removeFork_button" onclick="remove('fork')">remove</button>
@@ -38,7 +38,7 @@
     <td><p id="fork_price"></p></td>
   </tr>
   <tr bgcolor="d8d6d6">
-    <td><a href="Shock.html">Shock</a></td>
+    <td><a href="parts/Shock.html">Shock</a></td>
     <td>
       <p id="shock_name" style="display:inline-table"></p>
       <button id="removeShock_button" onclick="remove('shock')">remove</button>
@@ -223,7 +223,7 @@ async function getFrameInfo(){
     framePrice = response;
     document.getElementById("frame_price").innerHTML = "$"+framePrice;
     //Update total price
-    document.getElementById("total").innerHTML = "$"+String(Number(framePrice) + Number(forkPrice));
+    document.getElementById("total").innerHTML = "$"+String(Number(framePrice) + Number(forkPrice)+ Number(shockPrice));
   });
 }
 
@@ -237,7 +237,7 @@ async function getForkInfo(){
     forkPrice = response;
     document.getElementById("fork_price").innerHTML = "$"+forkPrice;
     //Update total price
-    document.getElementById("total").innerHTML = "$"+String(Number(framePrice) + Number(forkPrice));
+    document.getElementById("total").innerHTML = "$"+String(Number(framePrice) + Number(forkPrice) + Number(shockPrice));
   });
 }
 
@@ -251,7 +251,7 @@ async function getShockInfo(){
     shockPrice = response;
     document.getElementById("shock_price").innerHTML = "$"+shockPrice;
     //Update total price
-    document.getElementById("total").innerHTML = "$"+String(Number(framePrice) + Number(shockPrice));
+    document.getElementById("total").innerHTML = "$"+String(Number(framePrice) + Number(forkPrice) + Number(shockPrice));
   });
 }
 
