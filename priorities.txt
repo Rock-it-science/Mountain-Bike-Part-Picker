@@ -1,4 +1,0 @@
-Make drop-down options work (enter them into the sql server somehow)
-  Add options column to main table on index page? Then standard part info stays in Selection column, and options go in another
-Fix updateTotalPrice function
-Expand //Dong
