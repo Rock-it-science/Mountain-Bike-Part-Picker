@@ -58,7 +58,6 @@
 
 <script>
 //TODO Add compatibility system
-//TODO Convert cookie format to JSON Object retrival
 //TODO Add more kinds of parts (wheels, brakes, etc.)
 //TODO Add photos for each kind of part
 //TODO Fix colour scheme and do more front-end stuff
@@ -90,6 +89,12 @@ function intro(){
         //show remove shock button
         document.getElementById("removeShock_button").style.display = 'block';
       }
+  })).then(isDrivetrain(function(b){
+    if(b){
+      getDrivetrainInfo();
+      //show remove drivetrain button
+      document.getElementById("removeDrivetrain_button").style.display = 'block';
+    }
   })).then(main()));
 }
 function main(){
@@ -181,6 +186,33 @@ async function isShock(callback){
   callback(b);
 }
 
+//Check if drivetrain is selected
+async function isDrivetrain(callback){
+  var isdrivetrainRequest = new XMLHttpRequest();
+  let drivetrainPromise = new Promise((resolve, reject) => {
+    isdrivetrainRequest.onreadystatechange = function check(){
+      //console.log("isdrivetrainRequest status = " + isdrivetrainRequest.status);
+      if(isdrivetrainRequest.readyState == 4 && isdrivetrainRequest.status == 200){
+        if(isdrivetrainRequest.responseText != ""){
+          //Drivetrain is selected
+          console.log(isdrivetrainRequest.responseText);
+          resolve(true);
+        }
+        else{
+          //Drivetrain not selected
+          console.log("no drivetrain selected");
+          resolve(false);
+        }
+      }
+    };
+  });
+  isdrivetrainRequest.open("GET", "php/isPart.php?pt=drivetrain", true);
+  isdrivetrainRequest.send();
+  let b = await drivetrainPromise;
+  console.log(b);
+  callback(b);
+}
+
 //remove item from list
 function remove(Item){
   var removeRequest = new XMLHttpRequest();
@@ -223,7 +255,7 @@ async function getFrameInfo(){
     framePrice = response;
     document.getElementById("frame_price").innerHTML = "$"+framePrice;
     //Update total price
-    document.getElementById("total").innerHTML = "$"+String(Number(framePrice) + Number(forkPrice)+ Number(shockPrice));
+    updatetotal();
   });
 }
 
@@ -237,7 +269,7 @@ async function getForkInfo(){
     forkPrice = response;
     document.getElementById("fork_price").innerHTML = "$"+forkPrice;
     //Update total price
-    document.getElementById("total").innerHTML = "$"+String(Number(framePrice) + Number(forkPrice) + Number(shockPrice));
+    updatePrice();
   });
 }
 
@@ -251,7 +283,21 @@ async function getShockInfo(){
     shockPrice = response;
     document.getElementById("shock_price").innerHTML = "$"+shockPrice;
     //Update total price
-    document.getElementById("total").innerHTML = "$"+String(Number(framePrice) + Number(forkPrice) + Number(shockPrice));
+    updatePrice();
+  });
+}
+
+async function getDrivetrainInfo(){
+  console.log("get drivetrain info called");
+  getInfoRequest("php/getNameNoID.php?pt=drivetrain").then(function(response){
+    drivetrain_name = response;
+    document.getElementById("drivetrain_name").innerHTML = drivetrain_name;
+  });
+  getInfoRequest("php/getPrice.php?pt=drivetrain").then(function(response){
+    drivetrainPrice = response;
+    document.getElementById("drivetrain_price").innerHTML = "$"+drivetrainPrice;
+    //Update total price
+    updatePrice();
   });
 }
 
@@ -269,6 +315,11 @@ function getInfoRequest(url){
     };
     xhr.send();
   });
+}
+
+//Updates total price
+function updatePrice(){
+  document.getElementById("total").innerHTML = "$"+String(Number(framePrice) + Number(forkPrice) + Number(shockPrice) + Number(drivetrainPrice));
 }
 
 </script>

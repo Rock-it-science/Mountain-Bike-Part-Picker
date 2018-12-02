@@ -7,29 +7,96 @@
     <tr>
       <th>Part</th>
       <th>Price</th>
-      <th>Add to List</th>
+      <th>View Part</th>
     </tr>
     <tr>
-      <td>SRAM Eagle X01</td>
-      <td>$300</td>
+      <td><p id=drivetrainText></p></td>
+      <td><p id=drivetrainPriceText></p></td>
       <td align="center"><button onclick="add()">Select</button></td>
     </tr>
   </table>
-  <script>
-    function add(){
-      //if you already have a frame selected, show error
-      if((document.cookie).includes("Frame=SRAM")){//TODO: change this so its not hard coded
-        window.alert("You have already selected a drivetrain! Remove the one on your build first.");
+<script>
+
+getDrivetrainInfo();
+
+//Get drivetrain info from server
+async function getDrivetrainInfo(){
+  getInfoRequest("../php/getNameFromID.php?pt=drivetrain&id=1").then(function(response){
+    document.getElementById("drivetrainText").innerHTML = response;
+  });
+  getInfoRequest("../php/getPrice.php?pt=drivetrain").then(function(response){
+    document.getElementById("drivetrainPrice").innerHTML = "$"+response;
+  });
+}
+
+//Get info of any part from server
+function getInfoRequest(url){
+  console.log("info request created for "+url);
+  return new Promise(function(resolve){
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.onload = function(){
+      if(this.status == 200){
+        console.log("request successful");
+        resolve(xhr.response);
       }
-      else{
-        //set cookie and fo back to main page
-        document.cookie = "Drivetrain=Sram Eagle X01 $300;";
-        window.location.href="main.html";
-      }
-      //TODO Add filter system
-      //TODO Only show compatible parts
-      //TODO Add more parts
+    };
+    xhr.send();
+  });
+}
+
+function add(){
+  isDrivetrain(function(b){//Callback function to be executed after isdrivetrain
+    var isf = b;
+    //console.log(isf);
+    if(!isf){ //if there is no drivetrain in currentBuild, then add this one
+      //PHP method
+      console.log("adding drivetrain");
+      addRequest = new XMLHttpRequest();
+      addRequest.onreadystatechange = function() {
+         if (addRequest.status == 200) {
+           console.log(addRequest.responseText);
+           //addRequest.abort();
+           window.location.href="../../index.html";
+         }
+       };
+       addRequest.open("GET","../php/addDrivetrainToBuild.php?drivetrainId=1&price=1200",true);
+       addRequest.send();
     }
-  </script>
+    //if there is a drivetrain selected
+    else{
+      window.alert("You already have a drivetrain selected!");
+    }
+  });
+}
+
+//Check if drivetrain is in currentBuild
+async function isDrivetrain(callback){
+  var isdrivetrainRequest = new XMLHttpRequest();
+  let drivetrainPromise = new Promise((resolve, reject) => {
+    isdrivetrainRequest.onreadystatechange = function check(){
+      //console.log("isdrivetrainRequest status = " + isdrivetrainRequest.status);
+      if(isdrivetrainRequest.readyState == 4 && isdrivetrainRequest.status == 200){
+        if(isdrivetrainRequest.responseText != ""){
+          //Drivetrain is selected
+          console.log(isdrivetrainRequest.responseText);
+          resolve(true);
+        }
+        else{
+          //Drivetrain not selected
+          console.log("no drivetrain selected");
+          resolve(false);
+        }
+      }
+    };
+  });
+  isdrivetrainRequest.open("GET", "../php/isDrivetrain.php", true);
+  isdrivetrainRequest.send();
+  let b = await drivetrainPromise;
+  console.log(b);
+  callback(b);
+}
+
+</script>
 </body>
 </html>
