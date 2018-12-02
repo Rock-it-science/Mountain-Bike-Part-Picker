@@ -16,7 +16,8 @@
       <p id="frame_name" style="display:inline-table"></p>
       <button id="removeFrame_button" onclick="remove('frame')">remove</button>
     </td>
-    <td></td>
+    <td>
+      <p id="frameCompat"</td>
     <td><p id="frame_price"></p></td>
   </tr>
   <tr bgcolor="d8d6d6">
@@ -25,7 +26,9 @@
       <p id="drivetrain_name" style="display:inline-table"></p>
       <button id="removeDrivetrain_button" onclick="remove('drivetrain')">remove</button>
     </td>
-    <td></td>
+    <td>
+      <p id=drivetrainCompat></p>
+    </td>
     <td><p id="drivetrain_price"></p></td>
   </tr>
   <tr bgcolor="bfbfbf">
@@ -34,7 +37,9 @@
       <p id="fork_name" style="display:inline-table"></p>
       <button id="removeFork_button" onclick="remove('fork')">remove</button>
     </td>
-    <td></td>
+    <td>
+      <p id="forkCompat"></p>
+    </td>
     <td><p id="fork_price"></p></td>
   </tr>
   <tr bgcolor="d8d6d6">
@@ -43,7 +48,9 @@
       <p id="shock_name" style="display:inline-table"></p>
       <button id="removeShock_button" onclick="remove('shock')">remove</button>
     </td>
-    <td></td>
+    <td>
+      <p id="shockCompat"></p>
+    </td>
     <td><p id="shock_price"></p></td>
   </tr>
   <tr bgcolor="#939393">
@@ -54,8 +61,7 @@
   </tr>
 </table>
 
-<!-- <script type="text/javascript" src="compatibility.js"></script> -->
-
+<script type="text/javascript" src="js/compatibility/wheelSize.js"></script>
 <script>
 //TODO Add compatibility system
 //TODO Add more kinds of parts (wheels, brakes, etc.)
@@ -103,6 +109,17 @@ function main(){
   var drivetrainPrice=0;
   var forkPrice=0;
   var shockPrice=0;
+
+  //Compatibility
+  var wsBool = wheelSizeCompat();
+  console.log(wsBool);
+  if(wsBool){
+    document.getElementById("frameCompat").innerHTML = "Compatible with fork";
+    document.getElementById("forkCompat").innerHTML = "Compatible with frame";
+  }else {
+    document.getElementById("frameCompat").innerHTML = "NOT compatible with fork";
+    document.getElementById("forkCompat").innerHTML = "NOT compatible with frame";
+  }
 }
 
 //Check if frame is selected
@@ -114,12 +131,12 @@ async function isFrame(callback){
       if(isframeRequest.readyState == 4 && isframeRequest.status == 200){
         if(isframeRequest.responseText != ""){
           //Frame is selected
-          console.log(isframeRequest.responseText);
+          //console.log(isframeRequest.responseText);
           resolve(true);
         }
         else{
           //Frame not selected
-          console.log("no frame selected");
+          //console.log("no frame selected");
           resolve(false);
         }
       }
@@ -128,7 +145,7 @@ async function isFrame(callback){
   isframeRequest.open("GET", "php/isPart.php?pt=frame", true);
   isframeRequest.send();
   let b = await framePromise;
-  console.log(b);
+  //console.log(b);
   callback(b);
 }
 
@@ -141,12 +158,12 @@ async function isFork(callback){
       if(isforkRequest.readyState == 4 && isforkRequest.status == 200){
         if(isforkRequest.responseText != ""){
           //Fork is selected
-          console.log(isforkRequest.responseText);
+          //console.log(isforkRequest.responseText);
           resolve(true);
         }
         else{
           //Fork not selected
-          console.log("no fork selected");
+          //console.log("no fork selected");
           resolve(false);
         }
       }
@@ -155,7 +172,7 @@ async function isFork(callback){
   isforkRequest.open("GET", "php/isPart.php?pt=fork", true);
   isforkRequest.send();
   let b = await forkPromise;
-  console.log(b);
+  //console.log(b);
   callback(b);
 }
 
@@ -168,12 +185,12 @@ async function isShock(callback){
       if(isshockRequest.readyState == 4 && isshockRequest.status == 200){
         if(isshockRequest.responseText != ""){
           //Shock is selected
-          console.log(isshockRequest.responseText);
+          //console.log(isshockRequest.responseText);
           resolve(true);
         }
         else{
           //Shock not selected
-          console.log("no shock selected");
+          //console.log("no shock selected");
           resolve(false);
         }
       }
@@ -182,7 +199,7 @@ async function isShock(callback){
   isshockRequest.open("GET", "php/isPart.php?pt=shock", true);
   isshockRequest.send();
   let b = await shockPromise;
-  console.log(b);
+  //console.log(b);
   callback(b);
 }
 
@@ -195,12 +212,12 @@ async function isDrivetrain(callback){
       if(isdrivetrainRequest.readyState == 4 && isdrivetrainRequest.status == 200){
         if(isdrivetrainRequest.responseText != ""){
           //Drivetrain is selected
-          console.log(isdrivetrainRequest.responseText);
+          //console.log(isdrivetrainRequest.responseText);
           resolve(true);
         }
         else{
           //Drivetrain not selected
-          console.log("no drivetrain selected");
+          //console.log("no drivetrain selected");
           resolve(false);
         }
       }
@@ -209,7 +226,7 @@ async function isDrivetrain(callback){
   isdrivetrainRequest.open("GET", "php/isPart.php?pt=drivetrain", true);
   isdrivetrainRequest.send();
   let b = await drivetrainPromise;
-  console.log(b);
+  //console.log(b);
   callback(b);
 }
 
@@ -217,10 +234,10 @@ async function isDrivetrain(callback){
 function remove(Item){
   var removeRequest = new XMLHttpRequest();
   removeRequest.onreadystatechange = function(){
-    console.log("remove: readyState = "+removeRequest.readyState+", status = "+removeRequest.status);
+    //console.log("remove: readyState = "+removeRequest.readyState+", status = "+removeRequest.status);
     if(removeRequest.readyState == 4 && removeRequest.status == 200){
-      console.log("running remove");
-      console.log(removeRequest.responseText);
+      //console.log("running remove");
+      //console.log(removeRequest.responseText);
       location.reload(true);
     }
   };
@@ -260,7 +277,7 @@ async function getFrameInfo(){
 }
 
 async function getForkInfo(){
-  console.log("get fork info called");
+  //console.log("get fork info called");
   getInfoRequest("php/getNameNoID.php?pt=fork").then(function(response){
     fork_name = response;
     document.getElementById("fork_name").innerHTML = fork_name;
@@ -274,7 +291,7 @@ async function getForkInfo(){
 }
 
 async function getShockInfo(){
-  console.log("get shock info called");
+  //console.log("get shock info called");
   getInfoRequest("php/getNameNoID.php?pt=shock").then(function(response){
     shock_name = response;
     document.getElementById("shock_name").innerHTML = shock_name;
@@ -288,7 +305,7 @@ async function getShockInfo(){
 }
 
 async function getDrivetrainInfo(){
-  console.log("get drivetrain info called");
+  //console.log("get drivetrain info called");
   getInfoRequest("php/getNameNoID.php?pt=drivetrain").then(function(response){
     drivetrain_name = response;
     document.getElementById("drivetrain_name").innerHTML = drivetrain_name;
@@ -303,13 +320,13 @@ async function getDrivetrainInfo(){
 
 //Get info of any part from server
 function getInfoRequest(url){
-  console.log("info request created for "+url);
+  //console.log("info request created for "+url);
   return new Promise(function(resolve){
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.onload = function(){
       if(this.status == 200){
-        console.log("request successful");
+        //console.log("request successful");
         resolve(xhr.response);
       }
     };
