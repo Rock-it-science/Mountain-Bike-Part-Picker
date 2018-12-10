@@ -1,4 +1,4 @@
-async function wheelSizeCompat(){
+export async function wheelSizeCompat(){
 
   //Gets wheelsize selections for frame and fork from server using async
   // AJAX calls, then calls back to check if they are compatible or not.
@@ -6,13 +6,24 @@ async function wheelSizeCompat(){
   var frameWS;
   var forkWS;
 
-  getFrameOptions(function(a){
-    console.log(a);
-    frameWS = a;
-  }).then(getForkOptions(function(b){
-    console.log(b);
-    forkWS = b;
-    console.log("later "+ frameWS);
+  frame();
+
+  function frame(){
+    getFrameOptions(function(a){
+      console.log(a);
+      frameWS = a;
+      fork();
+    });
+  }
+  function fork(){
+    getForkOptions(function(b){
+      console.log(b);
+      forkWS = b;
+      conditionals();
+    });
+  }
+
+  function conditionals(){
     if(frameWS == forkWS){
       console.log("compatible");
       document.getElementById("frameCompat").innerHTML = "Compatible with fork";
@@ -23,7 +34,7 @@ async function wheelSizeCompat(){
       document.getElementById("frameCompat").innerHTML = "NOT compatible with fork";
       document.getElementById("forkCompat").innerHTML = "NOT compatible with frame";
     }
-  }));
+  };
 
   //Get wheelsize from frame and fork options
   async function getFrameOptions(callback){

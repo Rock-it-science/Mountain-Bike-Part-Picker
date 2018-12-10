@@ -61,8 +61,20 @@
   </tr>
 </table>
 
-<script type="text/javascript" src="js/compatibility/wheelSize.js"></script>
+<!-- js files -->
+<script type="module">
+  import * as module from './js/compatibility/compatibility.js';
+  module.compat();
+</script>
+
 <script>
+
+//declaring some variables
+var framePrice=0;
+var drivetrainPrice=0;
+var forkPrice=0;
+var shockPrice=0;
+
 //TODO Add compatibility system
 //TODO Add more kinds of parts (wheels, brakes, etc.)
 //TODO Add photos for each kind of part
@@ -101,17 +113,8 @@ function intro(){
       //show remove drivetrain button
       document.getElementById("removeDrivetrain_button").style.display = 'block';
     }
-  })).then(main()));
+  })).then(updatePrice()));
 }
-function main(){
-  //declaring some variables
-  var framePrice=0;
-  var drivetrainPrice=0;
-  var forkPrice=0;
-  var shockPrice=0;
-
-  //Compatibility
-  var wsBool = wheelSizeCompat(); //Checks wheel-size compatibility between fork and frame
 
 //Check if frame is selected
 async function isFrame(callback){
