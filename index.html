@@ -111,16 +111,7 @@ function main(){
   var shockPrice=0;
 
   //Compatibility
-  var wsBool = wheelSizeCompat();
-  console.log(wsBool);
-  if(wsBool){
-    document.getElementById("frameCompat").innerHTML = "Compatible with fork";
-    document.getElementById("forkCompat").innerHTML = "Compatible with frame";
-  }else {
-    document.getElementById("frameCompat").innerHTML = "NOT compatible with fork";
-    document.getElementById("forkCompat").innerHTML = "NOT compatible with frame";
-  }
-}
+  var wsBool = wheelSizeCompat(); //Checks wheel-size compatibility between fork and frame
 
 //Check if frame is selected
 async function isFrame(callback){
