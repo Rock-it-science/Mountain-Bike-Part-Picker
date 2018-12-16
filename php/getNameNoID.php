@@ -27,10 +27,10 @@ if($row = $result1->fetch_assoc()){
   $options = $row["$partTypeOptionsString"];
 }
 //Getting name from part table
-$result2 = $conn->query("SELECT brand, model FROM $partTypeS WHERE id=$id;");
+$result2 = $conn->query("SELECT brand, model, year FROM $partTypeS WHERE id=$id;");
 $info = '';
 if($row = $result2->fetch_assoc()){
-  $info = $row["brand"] . " ". $row["model"];
+  $info = $row["year"] . " " . $row["brand"] . " ". $row["model"];
 }
 echo $info . " " . $options;
  ?>
