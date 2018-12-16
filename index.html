@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <meta charset="utf-8"/>
 <html>
+<link rel="stylesheet" type="text/css" href="css/table.css">
 <body style="background-color: #d8d8d8;">
 <h1><p align="center">MTB Part Picker</p></h1>
-<table style="width:100%">
+<table>
   <tr bgcolor="#626262">
     <th>Component</th>
     <th>Selection</th>
@@ -16,8 +17,7 @@
       <p id="frame_name" style="display:inline-table"></p>
       <button id="removeFrame_button" onclick="remove('frame')">remove</button>
     </td>
-    <td>
-      <p id="frameCompat"</td>
+    <td id="frameCompat"></td>
     <td><p id="frame_price"></p></td>
   </tr>
   <tr bgcolor="d8d6d6">
@@ -37,9 +37,7 @@
       <p id="fork_name" style="display:inline-table"></p>
       <button id="removeFork_button" onclick="remove('fork')">remove</button>
     </td>
-    <td>
-      <p id="forkCompat"></p>
-    </td>
+    <td id="forkCompat"></td>
     <td><p id="fork_price"></p></td>
   </tr>
   <tr bgcolor="d8d6d6">
@@ -48,8 +46,7 @@
       <p id="shock_name" style="display:inline-table"></p>
       <button id="removeShock_button" onclick="remove('shock')">remove</button>
     </td>
-    <td>
-      <p id="shockCompat"></p>
+    <td id="shockCompat">
     </td>
     <td><p id="shock_price"></p></td>
   </tr>

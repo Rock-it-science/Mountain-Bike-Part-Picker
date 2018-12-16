@@ -1,7 +1,7 @@
 import * as module from './wheelsize.js';
 
 export async function compat(){
-
+  
   //If a frame and a fork are currently selected, then run wheelSizeCompat
   var isFrame;
   var isFork;

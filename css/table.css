@@ -1,0 +1,11 @@
+table {
+  width:100%
+}
+th{
+  text-align: center;
+  padding: 5px;
+}
+td{
+  text-alight:left;
+  width: 10%;
+}
