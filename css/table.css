@@ -5,7 +5,15 @@ th{
   text-align: center;
   padding: 5px;
 }
-td{
-  text-alight:left;
-  width: 10%;
+td:nth-child(1) {
+  width: 17%;
+}
+td:nth-child(2) {
+  width: 50%;
+}
+td:nth-child(3) {
+  width: 25%;
+}
+td:nth-child(4) {
+  width: 8%;
 }
