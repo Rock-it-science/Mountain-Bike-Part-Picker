@@ -1,7 +1,18 @@
 import * as module from './wheelsize.js';
 
+/*
+
+What's here now:
+- If the designated wheelsize of a frame doesn't match that of the fork, show Compatibility alert
+
+What's to come:
+- Drivetrain compatibility with different parts of the drivetrain (when added)
+
+*/
+
+
 export async function compat(){
-  
+
   //If a frame and a fork are currently selected, then run wheelSizeCompat
   var isFrame;
   var isFork;
