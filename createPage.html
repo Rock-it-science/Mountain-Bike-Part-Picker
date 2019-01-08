@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<html>
+<style>
+/* Dropdown Button */
+.dropbtn {
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+  cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #eaeaea}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+</style>
+<body>
+  <div align="right">
+    <button id="back" onclick="back()">Back to build</button>
+  </div>
+  <h1>Add a part</h1>
+  <div align="center">
+    Select part type:
+    <div class="dropdown">
+    <button onclick="ptDrop()" class="dropbtn"><a id="pt_dropdown-text"><i>Part Type</i>  &#9660;</a></button>
+      <div id="pt_Dropdown" class="dropdown-content">
+        <a onclick="selectPT('frame')">Frame</a>
+        <a onclick="selectPT('fork')">Fork</a>
+        <a onclick="selectPT('shock')">Shock</a>
+        <a onclick="selectPT('drivetrain')">Drivetrain</a>
+      </div>
+    </div>
+
+    <br>
+
+    <div id="frame_div" style="display: none">
+      <form action="php/submitFrame.php">
+        Brand name:
+        <input type="text" name="brand" /><br><br>
+
+        Model name:
+        <input type="text" name="model" /><br><br>
+
+        Year:
+        <input type="text" name="year"/><br><br>
+
+        <input type="submit" Value="Submit part" />
+      </form>
+    </div>
+
+    <div id="fork_div" style="display: none;">
+      Not available yet
+    </div>
+
+    <div id="shock_div" style="display: none;">
+      Not available yet
+    </div>
+
+    <div id="drivetrain_div" style="display: none;">
+      Not available yet
+    </div>
+
+<script>
+  //Back button
+  function back(){
+    window.location.href="../../index.html";
+  }
+
+  function ptDrop() {
+      document.getElementById("pt_Dropdown").classList.toggle("show");
+  }
+
+  window.onclick = function(event) {
+    // Close the dropdown if the user clicks outside of it
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+
+  function selectPT(pt){
+    document.getElementById("pt_dropdown-text").innerHTML = pt;
+
+    //Show only the div associated with the selected part type
+    var ptArray = ["frame", "fork", "shock", "drivetrain"];
+    //First hide all divs
+    for(i=0; i<ptArray.length; i++){
+      document.getElementById(ptArray[i]+"_div").style.display = "none";
+    }
+    //Now show selected one
+    document.getElementById(pt+"_div").style.display = "block";
+  }
+
+</script>
+</body>
+</html>
