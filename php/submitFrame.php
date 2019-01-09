@@ -21,6 +21,24 @@ $result1 = $conn->query("SELECT id FROM frames;");
 $rows = $result1->fetch_assoc();
 $id = sizeof($rows)+1;//Add one since id of new part will be the largest id already in table + 1
 
-$conn->query("INSERT INTO frames VALUES (" . $id . ", \"" . $brand . "\", \"" . $model . "\", " . $year . ");");
-header('Location: /submit_success.html');
+//Put new frame into SQL table
+$result2 = $conn->query("INSERT INTO frames VALUES (" . $id . ", \"" . $brand . "\", \"" . $model . "\", " . $year . ");");
+if($result2 != ""){failure();}
+
+//Template for new frame page
+$templateText = file_get_contents("../parts/frames/frameTemplate.html");
+
+//Create new page for frame
+$framePage = fopen($id."html", "w") or die(failure());
+fwrite($framePage, $templateText);
+fclose($framePage);
+success();
+
+function success(){
+  header('Location: /submit_success.html');
+}
+
+function failure(){
+  echo "Something went wrong";
+}
  ?>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<html>
+<style>
+/* Dropdown Button */
+.dropbtn {
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+  cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #eaeaea}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+</style>
+<body>
+
+<div align="right">
+  <button id="back" onclick="back()">Back to build</button>
+</div>
+
+<div align="center">
+  <h1><p id="frame name">FrameName</p></h1>
+  <img src="https://static.evanscycles.com/production/bike-components/bike-frames/product-image/969-638/norco-range-c71-frame-2017-mountain-bike-frameset-black-green-EV277853-8560-1.jpg" width="500"/>
+</div>
+
+<div align="center">
+  Frame size:
+  <div class="dropdown">
+  <button onclick="frameDrop()" class="dropbtn"><a id="f_dropdown-text">Select Frame Size  &#9660;</a></button>
+    <div id="f_Dropdown" class="dropdown-content">
+      <a onclick="selectSize(&quot;small&quot;)">Small</a>
+      <a onclick="selectSize(&quot;medium&quot;)">Medium</a>
+      <a onclick="selectSize(&quot;large&quot;)">Large</a>
+      <a onclick="selectSize(&quot;Large&quot;)">X-Large</a>
+    </div>
+  </div>
+
+  <div class="dropdown">
+  <button onclick="wheelDrop()" class="dropbtn"><a id="s_dropdown-text">Select Wheel Size  &#9660;</a></button>
+    <div id="s_Dropdown" class="dropdown-content">
+      <a onclick="ts()">27.5</a>
+      <a onclick="tn()">29</a>
+    </div>
+  </div>
+
+  <div class="dropdown">
+  <button onclick="materialDrop()" class="dropbtn"><a id="m_dropdown-text">Select Material  &#9660;</a></button>
+    <div id="m_Dropdown" class="dropdown-content">
+      <a onclick="aluminum()">Aluminum</a>
+      <a onclick="carbon()">Carbon</a>
+    </div>
+  </div>
+
+  <p id="price" style="display: none;">Price: $3000</p>
+  <div>
+    <button id="addButton" onclick="add()" style="display: none;">Add to list</button>
+  </div>
+</div>
+
+<!-- <script type="text/javascript" src="../../compatibility.js"></script> -->
+
+<script>
+
+//configurable variables
+var frameName = ' . $brand . ' ' . $model';
+var aPrice = 2500;
+var cPrice = 3500;
+var price = 0;
+
+//setting config variables to places on page
+window.onload = function main(){
+  document.getElementById("frame name").innerHTML = frameName;
+}
+
+//TODO Add more dropdowns for colour, etc
+//TODO Add pictures for items
+//TODO Add price management from different websites
+
+  //Back button
+  function back(){
+    window.location.href="../../index.html";
+  }
+
+  //frame size dropdown
+  function frameDrop() {
+      document.getElementById("f_Dropdown").classList.toggle("show");
+  }
+  function wheelDrop(){
+      document.getElementById("s_Dropdown").classList.toggle("show");
+  }
+  function materialDrop(){
+      document.getElementById("m_Dropdown").classList.toggle("show");
+  }
+
+  window.onclick = function(event) {
+    // Close the dropdown if the user clicks outside of it
+    if (!event.target.matches(\'.dropbtn\')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains(\'show\')) {
+          openDropdown.classList.remove(\'show\');
+        }
+      }
+    }
+
+    //if all selections are made, show add to list button
+    if((frameSizeSelection != null) && (wheelSizeSelection != null) && (materialSelection != null)){
+      document.getElementById("addButton").style.display = "block";
+  }
+}
+
+//dropdown selection functions
+var frameSizeSelection, wheelSizeSelection, materialSelection;
+function selectSize(size){
+  document.getElementById("f_dropdown-text").innerHTML = size;
+  frameSizeSelection = size;
+}
+
+function ts(){
+    document.getElementById("s_dropdown-text").innerHTML = "27.5";
+    wheelSizeSelection = "27.5";
+}
+function tn(){
+  document.getElementById("s_dropdown-text").innerHTML = "29";
+  wheelSizeSelection = "29";
+}
+function aluminum(){
+  document.getElementById("m_dropdown-text").innerHTML = "Aluminum";
+  materialSelection = "aluminum";
+  //set and show price
+  price = aPrice;
+  document.getElementById("price").innerHTML = "Price: $"+price;
+  document.getElementById("price").style.display = "block";
+}
+function carbon(){
+  document.getElementById("m_dropdown-text").innerHTML = "Carbon";
+  materialSelection = "carbon";
+  //set and show price
+  price = cPrice
+  document.getElementById("price").innerHTML = "Price: $"+price;
+  document.getElementById("price").style.display = "block";
+}
+
+function add(){
+  isFrame(function(b){//Callback function to be executed after isframe
+    var isf = b;
+    //console.log(isf);
+    if(!isf){ //if there is no frame in currentBuild, then add this one
+      //PHP method
+      console.log("adding frame");
+      addRequest = new XMLHttpRequest();
+      addRequest.onreadystatechange = function() {
+         if (addRequest.status == 200) {
+           console.log(addRequest.responseText);
+           //addRequest.abort();
+           window.location.href="../../index.html";
+         }
+       };
+       addRequest.open("GET","addFrameToBuild.php?frameId=1&size="+frameSizeSelection+"&material="+materialSelection+"&wheelsize="+wheelSizeSelection+"&price="+price,true);
+       addRequest.send();
+    }
+    //if there is a frame selected
+    else{
+      window.alert("You already have a frame selected!");
+    }
+  });
+}
+
+//Check if frame is in currentBuild
+async function isFrame(callback){
+  var isframeRequest = new XMLHttpRequest();
+  let framePromise = new Promise((resolve, reject) => {
+    isframeRequest.onreadystatechange = function check(){
+      //console.log("isframeRequest status = " + isframeRequest.status);
+      if(isframeRequest.readyState == 4 && isframeRequest.status == 200){
+        if(isframeRequest.responseText != ""){
+          //Frame is selected
+          console.log(isframeRequest.responseText);
+          resolve(true);
+        }
+        else{
+          //Frame not selected
+          console.log("no frame selected");
+          resolve(false);
+        }
+      }
+    };
+  });
+  isframeRequest.open("GET", "../../php/isPart.php?pt=frame", true);
+  isframeRequest.send();
+  let b = await framePromise;
+  console.log(b);
+  callback(b);
+}
+
+</script>
+</body>
+</html>

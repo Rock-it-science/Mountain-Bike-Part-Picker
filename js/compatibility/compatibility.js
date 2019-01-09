@@ -7,7 +7,7 @@ What's here now:
 
 What's to come:
 - Drivetrain compatibility with different parts of the drivetrain (when added)
-
+- Say a part is not compatible on the part page
 */
 
 
