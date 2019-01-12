@@ -76,8 +76,6 @@
  ?>
     ">
     <?php   //Getting frame brand and model name from frames table using id
-    $result = $conn->query("SELECT * FROM frames WHERE id=" . $id . ";");
-    $row = $result->fetch_assoc();
     $brand = $row["brand"];
     $model = $row["model"];
     echo $brand . " " . $model;
@@ -85,8 +83,6 @@
   </a></h1>
   <img src="
 <?php  //Getting imgLink from frames table using id
-  $result = $conn->query("SELECT * FROM frames WHERE id=" . $id . ";");
-  $row = $result->fetch_assoc();
   $img = $row["imgLink"];
   echo $img;
  ?>
@@ -99,8 +95,6 @@
   <button onclick="frameDrop()" class="dropbtn"><a id="f_dropdown-text">Select Frame Size  &#9660;</a></button>
     <div id="f_Dropdown" class="dropdown-content">
       <?php //Get frame sizes from frames table
-        $result = $conn->query("SELECT * FROM frames WHERE id=" . $id . ";");
-        $row = $result->fetch_assoc();
         $sizesString = $row["frameSizes"];
         $sizes = explode(" ", $sizesString); //Explode sizesString into an array of available sizes)
         for($i=0; $i<sizeof($sizes); $i++){//For every item in sizes, add an opiton in the drop-down for it
@@ -114,10 +108,8 @@
   <button onclick="wheelDrop()" class="dropbtn"><a id="s_dropdown-text">Select Wheel Size  &#9660;</a></button>
     <div id="s_Dropdown" class="dropdown-content">
       <?php //Get compatible wheel sizes from frames table
-        $result = $conn->query("SELECT * FROM frames WHERE id=" . $id . ";");
-        $row = $result->fetch_assoc();
         $wsizesString = $row["wheelSizes"];
-        $wsizes = explode(" ", $wsizesString); //Explode sizesString into an array of available sizes)
+        $wsizes = explode(" ", $wsizesString); //Explode sizesString into an array of available sizes
         for($i=0; $i<sizeof($wsizes); $i++){//For every item in sizes, add an opiton in the drop-down for it
           echo "<a onclick=\"wheelSize(" . $wsizes[$i] . ")\"> " . $wsizes[$i] . "</a>";
         }
@@ -128,8 +120,13 @@
   <div class="dropdown">
   <button onclick="materialDrop()" class="dropbtn"><a id="m_dropdown-text">Select Material  &#9660;</a></button>
     <div id="m_Dropdown" class="dropdown-content">
-      <a onclick="aluminum()">Aluminum</a>
-      <a onclick="carbon()">Carbon</a>
+      <?php //Get available materials from frames table
+        $matString = $row["materials"];
+        $materials = str_split($matString); //Split matString into an array of characters
+        for($i=0; $i<sizeof($materials); $i++){//For every item in sizes, add an opiton in the drop-down for it
+          echo("<a onclick='material(" . "\"" . $materials[$i] . "\"" . ")'> " . $materials[$i] . "</a>");
+        }
+      ?>
     </div>
   </div>
 
@@ -149,8 +146,8 @@ var aPrice = 2500;
 var cPrice = 3500;
 var price = 0;
 
+//TODO Add dynamic pricing
 //TODO Add more dropdowns for colour, etc
-//TODO Add pictures for items
 //TODO Add price management from different websites
 
   //Back button
