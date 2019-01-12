@@ -43,33 +43,54 @@
 </style>
 <body>
 
+<!--Extra invisible p to pass id to js through DOM, also set up SQL connection stuff here too-->
+<p id="frameID" style="display: none;">
+ <?php
+  //Connection stuff
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $dbname = "mtbpp";
+  $conn = new mysqli($servername, $username, $password, $dbname);
+  if($conn->connect_error){
+    die("Connection failed: ". $conn->connect_error);
+  }
+
+  //Get ID then echo it
+  $id = $_REQUEST["id"];
+  echo $id;
+ ?>
+</p>
+
 <div align="right">
   <button id="back" onclick="back()">Back to build</button>
 </div>
 
 <div align="center">
-  <h1><p id="frame name">
-    <?php //Get frame name
-    //Connection stuff
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "mtbpp";
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if($conn->connect_error){
-      die("Connection failed: ". $conn->connect_error);
-    }
-
-    //Getting frame brand and model name from id
-    $id = $_REQUEST["id"];
+  <h1><a id="frame name" href="
+ <?php //Getting manuLink from frames table using id
+  $result = $conn->query("SELECT * FROM frames WHERE id=" . $id . ";");
+  $row = $result->fetch_assoc();
+  $manuf = $row["manufLink"];
+  echo $manuf;
+ ?>
+    ">
+    <?php   //Getting frame brand and model name from frames table using id
     $result = $conn->query("SELECT * FROM frames WHERE id=" . $id . ";");
     $row = $result->fetch_assoc();
     $brand = $row["brand"];
     $model = $row["model"];
     echo $brand . " " . $model;
      ?>
-  </p></h1>
-  <img src="https://static.evanscycles.com/production/bike-components/bike-frames/product-image/969-638/norco-range-c71-frame-2017-mountain-bike-frameset-black-green-EV277853-8560-1.jpg" width="500"/>
+  </a></h1>
+  <img src="
+<?php  //Getting imgLink from frames table using id
+  $result = $conn->query("SELECT * FROM frames WHERE id=" . $id . ";");
+  $row = $result->fetch_assoc();
+  $img = $row["imgLink"];
+  echo $img;
+ ?>
+  " width="500"/>
 </div>
 
 <div align="center">
@@ -77,18 +98,30 @@
   <div class="dropdown">
   <button onclick="frameDrop()" class="dropbtn"><a id="f_dropdown-text">Select Frame Size  &#9660;</a></button>
     <div id="f_Dropdown" class="dropdown-content">
-      <a onclick="selectSize(&quot;small&quot;)">Small</a>
-      <a onclick="selectSize(&quot;medium&quot;)">Medium</a>
-      <a onclick="selectSize(&quot;large&quot;)">Large</a>
-      <a onclick="selectSize(&quot;Large&quot;)">X-Large</a>
+      <?php //Get frame sizes from frames table
+        $result = $conn->query("SELECT * FROM frames WHERE id=" . $id . ";");
+        $row = $result->fetch_assoc();
+        $sizesString = $row["frameSizes"];
+        $sizes = explode(" ", $sizesString); //Explode sizesString into an array of available sizes)
+        for($i=0; $i<sizeof($sizes); $i++){//For every item in sizes, add an opiton in the drop-down for it
+          echo "<a onclick=\"frameSize(&quot;" . $sizes[$i] . "&quot;)\">" . $sizes[$i] . "</a>";
+        }
+       ?>
     </div>
   </div>
 
   <div class="dropdown">
   <button onclick="wheelDrop()" class="dropbtn"><a id="s_dropdown-text">Select Wheel Size  &#9660;</a></button>
     <div id="s_Dropdown" class="dropdown-content">
-      <a onclick="ts()">27.5</a>
-      <a onclick="tn()">29</a>
+      <?php //Get compatible wheel sizes from frames table
+        $result = $conn->query("SELECT * FROM frames WHERE id=" . $id . ";");
+        $row = $result->fetch_assoc();
+        $wsizesString = $row["wheelSizes"];
+        $wsizes = explode(" ", $wsizesString); //Explode sizesString into an array of available sizes)
+        for($i=0; $i<sizeof($wsizes); $i++){//For every item in sizes, add an opiton in the drop-down for it
+          echo "<a onclick=\"wheelSize(" . $wsizes[$i] . ")\"> " . $wsizes[$i] . "</a>";
+        }
+      ?>
     </div>
   </div>
 
@@ -157,18 +190,20 @@ var price = 0;
 
 //dropdown selection functions
 var frameSizeSelection, wheelSizeSelection, materialSelection;
-function selectSize(size){
+function frameSize(size){
   document.getElementById("f_dropdown-text").innerHTML = size;
   frameSizeSelection = size;
 }
 
-function ts(){
-    document.getElementById("s_dropdown-text").innerHTML = "27.5";
-    wheelSizeSelection = "27.5";
+function wheelSize(size){
+  document.getElementById("s_dropdown-text").innerHTML = String(size);
+  wheelSizeSelection = String(size);
 }
-function tn(){
-  document.getElementById("s_dropdown-text").innerHTML = "29";
-  wheelSizeSelection = "29";
+
+function material(m){
+  if(m == "A"){aluminum();}
+  else if(m == "C"){carbon();}
+  else if(m == "S"){steel();}
 }
 function aluminum(){
   document.getElementById("m_dropdown-text").innerHTML = "Aluminum";
@@ -186,13 +221,19 @@ function carbon(){
   document.getElementById("price").innerHTML = "Price: $"+price;
   document.getElementById("price").style.display = "block";
 }
+function steel(){
+  document.getElementById("m_dropdown-text").innerHTML = "Steel";
+  materialSelection = "steel";
+  //set and show price
+  price = cPrice; //TODO update this after implemeting pricing
+  document.getElementById("price").innerHTML = "Price: $"+price;
+  document.getElementById("price").style.display = "block";
+}
 
 function add(){
   isFrame(function(b){//Callback function to be executed after isframe
     var isf = b;
-    //console.log(isf);
     if(!isf){ //if there is no frame in currentBuild, then add this one
-      //PHP method
       console.log("adding frame");
       addRequest = new XMLHttpRequest();
       addRequest.onreadystatechange = function() {
@@ -202,7 +243,7 @@ function add(){
            window.location.href="../../index.html";
          }
        };
-       addRequest.open("GET","addFrameToBuild.php?frameId=1&size="+frameSizeSelection+"&material="+materialSelection+"&wheelsize="+wheelSizeSelection+"&price="+price,true);
+       addRequest.open("GET","addFrameToBuild.php?frameId="+document.getElementById("frameID").innerHTML+"&size="+frameSizeSelection+"&material="+materialSelection+"&wheelsize="+wheelSizeSelection+"&price="+price,true);
        addRequest.send();
     }
     //if there is a frame selected
