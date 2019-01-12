@@ -48,7 +48,27 @@
 </div>
 
 <div align="center">
-  <h1><p id="frame name">FrameName</p></h1>
+  <h1><p id="frame name">
+    <?php //Get frame name
+    //Connection stuff
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "mtbpp";
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if($conn->connect_error){
+      die("Connection failed: ". $conn->connect_error);
+    }
+
+    //Getting frame brand and model name from id
+    $id = $_REQUEST["id"];
+    $result = $conn->query("SELECT * FROM frames WHERE id=" . $id . ";");
+    $row = $result->fetch_assoc();
+    $brand = $row["brand"];
+    $model = $row["model"];
+    echo $brand . " " . $model;
+     ?>
+  </p></h1>
   <img src="https://static.evanscycles.com/production/bike-components/bike-frames/product-image/969-638/norco-range-c71-frame-2017-mountain-bike-frameset-black-green-EV277853-8560-1.jpg" width="500"/>
 </div>
 
@@ -91,15 +111,10 @@
 <script>
 
 //configurable variables
-var frameName = ' . $brand . ' ' . $model';
+var frameName = document.getElementById("frame name").innerHTML;
 var aPrice = 2500;
 var cPrice = 3500;
 var price = 0;
-
-//setting config variables to places on page
-window.onload = function main(){
-  document.getElementById("frame name").innerHTML = frameName;
-}
 
 //TODO Add more dropdowns for colour, etc
 //TODO Add pictures for items
@@ -123,13 +138,13 @@ window.onload = function main(){
 
   window.onclick = function(event) {
     // Close the dropdown if the user clicks outside of it
-    if (!event.target.matches(\'.dropbtn\')) {
+    if (!event.target.matches('.dropbtn')) {
       var dropdowns = document.getElementsByClassName("dropdown-content");
       var i;
       for (i = 0; i < dropdowns.length; i++) {
         var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains(\'show\')) {
-          openDropdown.classList.remove(\'show\');
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
         }
       }
     }
@@ -225,5 +240,6 @@ async function isFrame(callback){
 }
 
 </script>
+
 </body>
 </html>

@@ -28,10 +28,11 @@ if($result2 != ""){failure();}
 //Template for new frame page
 $templateText = file_get_contents("../parts/frames/frameTemplate.html");
 
-//Create new page for frame
-$framePage = fopen($id."html", "w") or die(failure());
-fwrite($framePage, $templateText);
-fclose($framePage);
+//Create new page from frame template
+$newPage = fopen("../parts/frames/" . $brand . $model . ".html", "w") or die(failure());
+fwrite($newPage, $templateText);
+fclose($newPage);
+
 success();
 
 function success(){
