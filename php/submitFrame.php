@@ -5,6 +5,11 @@
 $brand = $_REQUEST["brand"];
 $model = $_REQUEST["model"];
 $year = $_REQUEST["year"];
+$material = $_REQUEST["material"];
+$frameSize = $_REQUEST["frameSize"];
+$wheelSize = $_REQUEST["wheelSize"];
+$manufLink = $_REQUEST["manuf"];
+$imgLink = $_REQUEST["img"];
 
 //SQL setup
 $servername = "localhost";
@@ -21,17 +26,25 @@ $result1 = $conn->query("SELECT id FROM frames;");
 $rows = $result1->fetch_assoc();
 $id = sizeof($rows)+1;//Add one since id of new part will be the largest id already in table + 1
 
+//Converting arrays to strings (keeping specific format for sql table)
+$materialString = "";
+for($i=0; $i<sizeof($material); $i++){
+  $materialString .= $material[$i];
+}
+
+$frameSizeString = $frameSize[0];
+for($i=1; $i<sizeof($frameSize); $i++){
+  $frameSizeString .= " " . $frameSize[$i];
+}
+
+$wheelSizeString = $wheelSize[0];
+for($i=1; $i<sizeof($wheelSize); $i++){
+  $wheelSizeString .= " " . $wheelSize[$i];
+}
+
 //Put new frame into SQL table
-$result2 = $conn->query("INSERT INTO frames VALUES (" . $id . ", \"" . $brand . "\", \"" . $model . "\", " . $year . ");");
+$result2 = $conn->query("INSERT INTO frames VALUES (" . $id . ", \"" . $brand . "\", \"" . $model . "\", " . $year . ", \"" . $materialString . "\", \"" . $frameSizeString . "\", \"" . $wheelSizeString . "\", \"" . $manufLink . "\", \"" . $imgLink . "\");");
 if($result2 != ""){failure();}
-
-//Template for new frame page
-$templateText = file_get_contents("../parts/frames/frameTemplate.html");
-
-//Create new page from frame template
-$newPage = fopen("../parts/frames/" . $brand . $model . ".html", "w") or die(failure());
-fwrite($newPage, $templateText);
-fclose($newPage);
 
 success();
 

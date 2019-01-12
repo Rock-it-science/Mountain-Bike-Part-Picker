@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <br>
+    <br><br>
 
     <div id="frame_div" style="display: none">
       <form action="php/submitFrame.php">
@@ -70,6 +70,34 @@
 
         Year:
         <input type="text" name="year"/><br><br>
+
+        Available Materials:
+        Carbon<input type="checkbox" name="material[]" value="C" checked="checked">
+        Aluminum<input type="checkbox" name="material[]" value="A" checked="checked">
+        Steel<input type="checkbox" name="material[]" value="S"><br><br>
+
+        Available frame sizes:
+        XS<input type="checkbox" name="frameSize[]" value="XS" checked="checked">
+        S<input type="checkbox" name="frameSize[]" value="S" checked="checked">
+        M<input type="checkbox" name="frameSize[]" value="M" checked="checked">
+        L<input type="checkbox" name="frameSize[]" value="L" checked="checked">
+        XL<input type="checkbox" name="frameSize[]" value="XL" checked="checked"><br><br>
+
+        Largest compatible wheel size:
+        | 24<input type="radio" name="wheelSize[]" value="24">
+        | 26<input type="radio" name="wheelSize[]" value="26">
+        | 26+<input type="radio" name="wheelSize[]" value="26+">
+        | 26 Fat<input type="radio" name="wheelSize[]" value="26 Fat">
+        | 27.5<input type="radio" name="wheelSize[]" value="27.5" checked>
+        | 27.5+<input type="radio" name="wheelSize[]" value="27.5+">
+        | 29<input type="radio" name="wheelSize[]" value="29">
+        | 29+<input type="radio" name="wheelSize[]" value="29+"><br><br>
+
+        Link to manufaturer's product page:
+        <input type="text" name="manuf" /><br><br>
+
+        Link to product image:
+        <input type="text" name="img" /><br><br>
 
         <input type="submit" Value="Submit part" />
       </form>
