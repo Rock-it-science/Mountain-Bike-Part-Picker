@@ -74,41 +74,6 @@ var drivetrainPrice=0;
 var forkPrice=0;
 var shockPrice=0;
 
-/*
-What's here:
-- Select parts and add to build
-- Basic compatibility framework (currently only implemented for wheel size between frame and fork)
-- Dynamic total price based on part prices
-- Can add new parts of any type through the createPage
-- Lots of details and options for frames and forks
-- Parts link to manufacturers page
-- Parts show a picture
-
-What's on its way:
-- Add more details for each part (add to SQL and to <partname>.php)
-  - hardtail vs full sus implemented in index table
-  - Frames often come with shocks when you buy them
-    - Auto add shock that comes with frame?
-- Requiring fields to be filled before attempting to add parts
-- More different kinds of parts
-  - Replace drivetrain with individeual parts (chain, cassette, derailer, etc)
-  - wheels
-  - brakes
-  - ... and more
-- More compatibility (see compatibility.js)
-- Improve SQL security (DO THIS BEFORE HOSTING)
-  - Password on SQL server
-  - Sanitize input
-
-What's coming later:
-- Ability to filter parts by brand and inteded use (xc, dh, am etc)
-- Only show compatible parts on partList pages
-- Dynamic part pricing with manufaturer MSRP, and retailer prices
-- More photos of each part
-- Frant end stuff so this doesn't look like its from the 90s
-
-*/
-
 //run main function when page loads
 window.onload = intro();
 function intro(){
