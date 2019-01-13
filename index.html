@@ -41,7 +41,7 @@
     <td><p id="fork_price"></p></td>
   </tr>
   <tr bgcolor="d8d6d6">
-    <td><a href="parts/Shock.html">Shock</a></td>
+    <td><a href="parts/shocks/shockList.php">Shock</a></td>
     <td>
       <p id="shock_name" style="display:inline-table"></p>
       <button id="removeShock_button" onclick="remove('shock')">remove</button>
@@ -79,11 +79,16 @@ What's here:
 - Select parts and add to build
 - Basic compatibility structure (see js folder)
 - Dynamic total price
+- Add frames and forks from createPage
 
 What's on its way:
-- Adding parts through the "create-a-page"
+- Adding all parts through the createPage
+  - Requiring fields to be filled before attempting to add parts
 - Add more details for each part add to SQL and to frame.php
-  - hardtail or full sus?
+  - hardtail vs full sus implemented in index table
+  - Frames often come with shocks when you buy them
+    - Auto add shock that comes with frame?
+  - Price column on parts
   - Frame/wheel sizes, prices, materials, link to manufacturer page, picture
 - More different kinds of parts
   - brakes
@@ -91,9 +96,13 @@ What's on its way:
   - Drivetrain parts (chain, cassette, derailer, etc)
   - ... and more
 - More compatibility (see compatibility.js)
-- Improve SQL security (add password, and sanitize input)
+- Improve SQL security (DO THIS BEFORE HOSTING)
+  - Password on SQL server
+  - Sanitize input
 
 What's coming later:
+- Ability to filter parts by brand and inteded use (xc, dh, am etc)
+- Only show compatible parts on partList pages
 - Dynamic part pricing with manufaturer MSRP, and retailer prices
 - More photos of each part
 - Frant end stuff so this doesn't look like its from the 90s
