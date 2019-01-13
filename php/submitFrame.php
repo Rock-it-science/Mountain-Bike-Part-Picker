@@ -8,6 +8,7 @@ $year = $_REQUEST["year"];
 $material = $_REQUEST["material"];
 $frameSize = $_REQUEST["frameSize"];
 $wheelSize = $_REQUEST["wheelSize"];
+$sus = $_REQUEST["sus"];
 $manufLink = $_REQUEST["manuf"];
 $imgLink = $_REQUEST["img"];
 
@@ -23,9 +24,8 @@ if($conn->connect_error){
 
 //Get highest id from frames table (highest id equals number of rows)
 $result1 = $conn->query("SELECT id FROM frames;");
-$rows = $result1->fetch_assoc();
-$id = sizeof($rows)+1;//Add one since id of new part will be the largest id already in table + 1
-
+$id = mysqli_num_rows($result1)+1;//Add one since id of new part will be the largest id already in table + 1
+echo $id;
 //Converting arrays to strings (keeping specific format for sql table)
 $materialString = "";
 for($i=0; $i<sizeof($material); $i++){
@@ -43,10 +43,9 @@ for($i=1; $i<sizeof($wheelSize); $i++){
 }
 
 //Put new frame into SQL table
-$result2 = $conn->query("INSERT INTO frames VALUES (" . $id . ", \"" . $brand . "\", \"" . $model . "\", " . $year . ", \"" . $materialString . "\", \"" . $frameSizeString . "\", \"" . $wheelSizeString . "\", \"" . $manufLink . "\", \"" . $imgLink . "\");");
-if($result2 != ""){failure();}
-
-success();
+$result2 = $conn->query("INSERT INTO frames VALUES (" . $id . ", \"" . $brand . "\", \"" . $model . "\", " . $year . ", \"" . $materialString . "\", \"" . $frameSizeString . "\", \"" . $wheelSizeString . "\", \"" . $manufLink . "\", \"" . $imgLink . "\", " . $sus . ");");
+if(!$result2){failure();}
+else{success();}
 
 function success(){
   header('Location: /submit_success.html');
