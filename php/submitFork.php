@@ -22,8 +22,8 @@ if($conn->connect_error){
 
 //Get highest id from forks table (highest id equals number of rows)
 $result1 = $conn->query("SELECT id FROM forks;");
-$rows = $result1->fetch_assoc();
-$id = sizeof($rows)+1;//Add one since id of new part will be the largest id already in table + 1
+$id = mysqli_num_rows($result1)+1;//Add one since id of new part will be the largest id already in table + 1
+
 
 //Converting arrays to strings (keeping specific format for sql table)
 $travelString = $travel[0];
@@ -38,9 +38,8 @@ for($i=1; $i<sizeof($wheelSize); $i++){
 
 //Put new fork into SQL table
 $result2 = $conn->query("INSERT INTO forks VALUES (" . $id . ", \"" . $brand . "\", \"" . $model . "\", " . $year . ", \"" . $travelString . "\", \"" . $wheelSizeString . "\", \"" . $manufLink . "\", \"" . $imgLink . "\");");
-if($result2 != ""){failure();}
-
-success();
+if(!$result2){failure();}
+else{success();}
 
 function success(){
   header('Location: /submit_success.html');

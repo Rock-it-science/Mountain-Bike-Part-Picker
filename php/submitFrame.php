@@ -25,7 +25,7 @@ if($conn->connect_error){
 //Get highest id from frames table (highest id equals number of rows)
 $result1 = $conn->query("SELECT id FROM frames;");
 $id = mysqli_num_rows($result1)+1;//Add one since id of new part will be the largest id already in table + 1
-echo $id;
+
 //Converting arrays to strings (keeping specific format for sql table)
 $materialString = "";
 for($i=0; $i<sizeof($material); $i++){
