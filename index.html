@@ -58,7 +58,7 @@
   </tr>
 </table>
 
-<a href="createPage.html">Add a part (work in progress)</a>
+<a href="createPage.html">Add a part</a>
 
 <!-- js files -->
 <script type="module">
@@ -77,23 +77,23 @@ var shockPrice=0;
 /*
 What's here:
 - Select parts and add to build
-- Basic compatibility structure (see js folder)
-- Dynamic total price
-- Add frames and forks from createPage
+- Basic compatibility framework (currently only implemented for wheel size between frame and fork)
+- Dynamic total price based on part prices
+- Can add new parts of any type through the createPage
+- Lots of details and options for frames and forks
+- Parts link to manufacturers page
+- Parts show a picture
 
 What's on its way:
-- Adding all parts through the createPage
-  - Requiring fields to be filled before attempting to add parts
-- Add more details for each part add to SQL and to frame.php
+- Add more details for each part (add to SQL and to <partname>.php)
   - hardtail vs full sus implemented in index table
   - Frames often come with shocks when you buy them
     - Auto add shock that comes with frame?
-  - Price column on parts
-  - Frame/wheel sizes, prices, materials, link to manufacturer page, picture
+- Requiring fields to be filled before attempting to add parts
 - More different kinds of parts
-  - brakes
+  - Replace drivetrain with individeual parts (chain, cassette, derailer, etc)
   - wheels
-  - Drivetrain parts (chain, cassette, derailer, etc)
+  - brakes
   - ... and more
 - More compatibility (see compatibility.js)
 - Improve SQL security (DO THIS BEFORE HOSTING)
