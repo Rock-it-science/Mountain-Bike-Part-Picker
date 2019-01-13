@@ -104,7 +104,48 @@
     </div>
 
     <div id="fork_div" style="display: none;">
-      Not available yet
+      <form action="php/submitFork.php">
+        Brand name:
+        <input type="text" name="brand" /><br><br>
+
+        Model name:
+        <input type="text" name="model" /><br><br>
+
+        Year:
+        <input type="text" name="year"/><br><br>
+
+        Available fork travels:
+        100<input type="checkbox" name="travels[]" value=100>
+        110<input type="checkbox" name="travels[]" value=110>
+        120<input type="checkbox" name="travels[]" value=120>
+        130<input type="checkbox" name="travels[]" value=130>
+        140<input type="checkbox" name="travels[]" value=140>
+        150<input type="checkbox" name="travels[]" value=150 checked="checked">
+        160<input type="checkbox" name="travels[]" value=160 checked="checked">
+        170<input type="checkbox" name="travels[]" value=170 checked="checked">
+        180<input type="checkbox" name="travels[]" value=180 checked="checked">
+        200<input type="checkbox" name="travels[]" value=200>
+        210<input type="checkbox" name="travels[]" value=210>
+        <br><br>
+
+        Wheel size options:
+        | 24<input type="checkbox" name="wheelSize[]" value="24">
+        | 26<input type="checkbox" name="wheelSize[]" value="26">
+        | 26+<input type="checkbox" name="wheelSize[]" value="26+">
+        | 26 Fat<input type="checkbox" name="wheelSize[]" value="26 Fat">
+        | 27.5<input type="checkbox" name="wheelSize[]" value="27.5" checked>
+        | 27.5+<input type="checkbox" name="wheelSize[]" value="27.5+">
+        | 29<input type="checkbox" name="wheelSize[]" value="29">
+        | 29+<input type="checkbox" name="wheelSize[]" value="29+"><br><br>
+
+        Link to manufaturer's product page:
+        <input type="text" name="manuf" /><br><br>
+
+        Link to product image:
+        <input type="text" name="img" /><br><br>
+
+        <input type="submit" Value="Submit part" />
+      </form>
     </div>
 
     <div id="shock_div" style="display: none;">

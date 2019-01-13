@@ -136,8 +136,6 @@
   </div>
 </div>
 
-<!-- <script type="text/javascript" src="../../compatibility.js"></script> -->
-
 <script>
 
 //configurable variables
