@@ -1,7 +1,11 @@
 # Mountain-Bike-Part-Picker
+
+As of Jan 14 this project is abandoned. It was a fun project to help learn PHP, but the real PC Part Picker guys seem to be working on something much bigger and better.
+
+
+
 Build your bike virtually to see compatibility and pricing, or just toy with the most expensive bike you can build
 
-"The PC Part Picker for mountain bikers"
 
 Please note that until I have at the very least a better working framework, I will not be publicly hosting this, so if you plan on hosting locally, make sure you have your sql databases set up correctly.
 
