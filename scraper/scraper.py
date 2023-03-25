@@ -30,10 +30,10 @@ class Scraper:
         Args:
          - url: URL to product page to scrape
         """
-        
+        return
 
 
-    def scrapeCategory(self, url: str) -> list:
+    def scrapeCategory(self, url: str, domain: str) -> list:
         """
         Given link to a category page (containing direct links to products), get links to individual products
 
@@ -44,20 +44,24 @@ class Scraper:
          - List of dicts with title, and link
         """
         soup = self.scrape(url)
+        
         products = []
         
         # Get all links and product titles
-        #    Titles are often nested in a desdendant tag
-        for a in soup.find_all('a'):
+        # print(soup.body)
+        # with open('body.html', 'w', encoding='utf-8') as f:
+        #     f.write(str(soup.body))
+        for a in soup.find_all('a', class_='product-card'): # This class is specific to worldwide cyclery
             href = a.get('href')
-            title = ""
-            for child in a.select('snize-title'):
-                print(child)
-                title = child.string
-            products.append([title, href])
+            if href is not None:
+                if href[0] == '/': # If link starts with a slash, it is a relative link so add domain in front of it to make FQDN
+                    href = domain + href
+                title = a.find('img').get('alt')
+                products.append([title, href])
 
         return products
 
 
 s = Scraper()
-s.scrapeCategory('https://www.worldwidecyclery.com/collections/forks')
+products = s.scrapeCategory('https://www.worldwidecyclery.com/collections/forks', 'https://www.worldwidecyclery.com')
+
